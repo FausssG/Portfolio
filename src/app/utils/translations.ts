@@ -34,7 +34,7 @@ export const translations = {
       locked: "Bloqueado",
       unlockToastTitle: "Nodo desbloqueado",
       tutorial: "👆 Click en SISTEMA CENTRAL para comenzar tu viaje",
-      dragHint: "🖐️ Arrastra para explorar",
+      dragHint: "Arrastra para explorar",
       secretUnlocked: "🎮 HACK DESBLOQUEADO!",
       xpBonus: "BONUS XP",
       secretHint: "✨ Easter Egg!",
@@ -72,15 +72,22 @@ export const translations = {
     identificationText: "Estudiante avanzado de Ingeniería en Sistemas de la Información (UTN Rosario, promedio 7.5/10) con perfil full-stack orientado al desarrollo de software y análisis de datos. Experiencia práctica en Python, C#, JavaScript/TypeScript, Angular y NestJS, con sólidos conocimientos en SQL, control de versiones con Git y metodologías ágiles/Scrum.",
     mission: "MISIÓN",
     missionText: "Transformar ideas complejas en soluciones tecnológicas innovadoras que impulsen el crecimiento y mejoren la eficiencia de los sistemas. Apasionado por el aprendizaje continuo y la aplicación de mejores prácticas en desarrollo de software.",
+    interpersonalSkillsTitle: "HABILIDADES INTERPERSONALES",
+    interpersonalSkillsText: "Trabajo en equipo, resolución de problemas, comunicación eficaz, proactividad, gestión del tiempo, creatividad e innovación, trabajo bajo presión, pensamiento sistémico, responsabilidad y mente abierta.",
 
     // Skills
-    skillsTitle: "STACK TECNOLÓGICO",
-    skillCategories: {
-      frontend: { title: "Frontend", skills: ["Angular", "React", "TypeScript", "HTML/CSS"] },
-      backend: { title: "Backend", skills: ["NestJS", "Python", "C#", ".NET Framework"] },
-      data: { title: "Datos & IA", skills: ["SPSS", "MATLAB", "SQL", "MySQL"] },
-      tools: { title: "Herramientas", skills: ["Git", "Figma", "Arduino", "UML"] }
-    },
+    skillsTitle: "HABILIDADES TÉCNICAS",
+    skillCategories: [
+      { key: "languages", title: "Lenguajes", skills: ["Python", "C#", "JavaScript", "TypeScript", "HTML", "CSS"] },
+      { key: "frameworks", title: "Frameworks / Librerías", skills: ["Angular", "NestJS", ".NET Framework"] },
+      { key: "databases", title: "Bases de Datos", skills: ["SQL", "MySQL", "Modelado", "Consultas", "Optimización"] },
+      { key: "version", title: "Control de Versiones", skills: ["Git", "GitHub"] },
+      { key: "data", title: "Datos & IA", skills: ["IBM SPSS Modeler", "IBM SPSS Statistics", "MATLAB", "Análisis Exploratorio de Datos (EDA)"] },
+      { key: "simulation", title: "Simulación & Procesos", skills: ["AnyLogic", "Bizagi Modeler"] },
+      { key: "design", title: "Diseño & UX", skills: ["Figma", "Axure", "UML"] },
+      { key: "iot", title: "IoT / Hardware", skills: ["Arduino"] },
+      { key: "methods", title: "Metodologías", skills: ["Scrum", "Metodologías Ágiles", "Gestión de Proyectos", "Gestión de Calidad"] }
+    ],
 
     // Projects
     projectsTitle: "ARCHIVO DE PROYECTOS",
@@ -92,7 +99,7 @@ export const translations = {
         description: "Proyecto integrador final de la carrera de Ingeniería en Sistemas",
         image: "/assets/projects/proyecto-final.png",
         technologies: ["Flutter", "Dart", "NextJS", "PostgreSQL", "TypeScript"],
-        date: "2024 - Presente"
+        date: "2025 - Presente"
       },
       {
         name: "Sistema de Gestión WPC",
@@ -101,7 +108,7 @@ export const translations = {
         description: "Sistema de gestión 100% funcional con aplicación de mejores prácticas de diseño de software",
         image: "/assets/projects/wpc.png",
         technologies: ["UML", "Arquitectura de Software", "Patrones de Diseño"],
-        date: "2024"
+        date: "2023 - 2026"
       },
       {
         name: "Sistema Experto React",
@@ -274,7 +281,7 @@ export const translations = {
       locked: "Locked",
       unlockToastTitle: "Node unlocked",
       tutorial: "👆 Click CENTRAL SYSTEM to begin your journey",
-      dragHint: "🖐️ Drag to explore",
+      dragHint: "Drag to explore",
       secretUnlocked: "🎮 HACK UNLOCKED!",
       xpBonus: "XP BONUS",
       secretHint: "✨ Easter Egg!",
@@ -312,15 +319,22 @@ export const translations = {
     identificationText: "Advanced student of Information Systems Engineering (UTN Rosario, GPA 7.5/10) with a full-stack profile focused on software development and data analysis. Hands-on experience in Python, C#, JavaScript/TypeScript, Angular and NestJS, with solid knowledge in SQL, version control with Git and Agile/Scrum methodologies.",
     mission: "MISSION",
     missionText: "Transform complex ideas into innovative technological solutions that drive growth and improve system efficiency. Passionate about continuous learning and applying software development best practices.",
+    interpersonalSkillsTitle: "INTERPERSONAL SKILLS",
+    interpersonalSkillsText: "Teamwork, problem solving, effective communication, proactivity, time management, creativity and innovation, working under pressure, systems thinking, responsibility and an open mind.",
 
     // Skills
-    skillsTitle: "TECH STACK",
-    skillCategories: {
-      frontend: { title: "Frontend", skills: ["Angular", "React", "TypeScript", "HTML/CSS"] },
-      backend: { title: "Backend", skills: ["NestJS", "Python", "C#", ".NET Framework"] },
-      data: { title: "Data & AI", skills: ["SPSS", "MATLAB", "SQL", "MySQL"] },
-      tools: { title: "Tools", skills: ["Git", "Figma", "Arduino", "UML"] }
-    },
+    skillsTitle: "TECHNICAL SKILLS",
+    skillCategories: [
+      { key: "languages", title: "Languages", skills: ["Python", "C#", "JavaScript", "TypeScript", "HTML", "CSS"] },
+      { key: "frameworks", title: "Frameworks / Libraries", skills: ["Angular", "NestJS", ".NET Framework"] },
+      { key: "databases", title: "Databases", skills: ["SQL", "MySQL", "Modeling", "Queries", "Optimization"] },
+      { key: "version", title: "Version Control", skills: ["Git", "GitHub"] },
+      { key: "data", title: "Data & AI", skills: ["IBM SPSS Modeler", "IBM SPSS Statistics", "MATLAB", "Exploratory Data Analysis (EDA)"] },
+      { key: "simulation", title: "Simulation & Processes", skills: ["AnyLogic", "Bizagi Modeler"] },
+      { key: "design", title: "Design & UX", skills: ["Figma", "Axure", "UML"] },
+      { key: "iot", title: "IoT / Hardware", skills: ["Arduino"] },
+      { key: "methods", title: "Methodologies", skills: ["Scrum", "Agile Methodologies", "Project Management", "Quality Management"] }
+    ],
 
     // Projects
     projectsTitle: "PROJECTS ARCHIVE",
@@ -332,7 +346,7 @@ export const translations = {
         description: "Final integrative project for Systems Engineering degree",
         image: "/assets/projects/proyecto-final.png",
         technologies: ["Flutter", "Dart", "NextJS", "PostgreSQL", "TypeScript"],
-        date: "2024 - Present"
+        date: "2025 - Present"
       },
       {
         name: "WPC Management System",
@@ -341,7 +355,7 @@ export const translations = {
         description: "100% functional management system applying software design best practices",
         image: "/assets/projects/wpc.png",
         technologies: ["UML", "Software Architecture", "Design Patterns"],
-        date: "2024"
+        date: "2023 - 2026"
       },
       {
         name: "React Expert System",
@@ -514,7 +528,7 @@ export const translations = {
       locked: "Gesperrt",
       unlockToastTitle: "Knoten freigeschaltet",
       tutorial: "👆 Klicken Sie auf ZENTRALSYSTEM, um Ihre Reise zu beginnen",
-      dragHint: "🖐️ Ziehen, um zu erkunden",
+      dragHint: "Ziehen, um zu erkunden",
       secretUnlocked: "🎮 HACK FREIGESCHALTET!",
       xpBonus: "XP-BONUS",
       secretHint: "✨ Easter Egg!",
@@ -552,15 +566,22 @@ export const translations = {
     identificationText: "Fortgeschrittener Student der Informationssystemtechnik (UTN Rosario, Durchschnitt 7.5/10) mit Full-Stack-Profil, das sich auf Softwareentwicklung und Datenanalyse konzentriert. Praktische Erfahrung in Python, C#, JavaScript/TypeScript, Angular und NestJS, mit soliden Kenntnissen in SQL, Versionskontrolle mit Git und Agile/Scrum-Methoden.",
     mission: "MISSION",
     missionText: "Komplexe Ideen in innovative technologische Lösungen umwandeln, die das Wachstum fördern und die Systemeffizienz verbessern. Leidenschaftlich für kontinuierliches Lernen und die Anwendung bewährter Praktiken in der Softwareentwicklung.",
+    interpersonalSkillsTitle: "ZWISCHENMENSCHLICHE FÄHIGKEITEN",
+    interpersonalSkillsText: "Teamarbeit, Problemlösung, effektive Kommunikation, Proaktivität, Zeitmanagement, Kreativität und Innovation, Arbeiten unter Druck, systemisches Denken, Verantwortungsbewusstsein und Offenheit.",
 
     // Skills
-    skillsTitle: "TECH-STACK",
-    skillCategories: {
-      frontend: { title: "Frontend", skills: ["Angular", "React", "TypeScript", "HTML/CSS"] },
-      backend: { title: "Backend", skills: ["NestJS", "Python", "C#", ".NET Framework"] },
-      data: { title: "Daten & KI", skills: ["SPSS", "MATLAB", "SQL", "MySQL"] },
-      tools: { title: "Werkzeuge", skills: ["Git", "Figma", "Arduino", "UML"] }
-    },
+    skillsTitle: "TECHNISCHE FÄHIGKEITEN",
+    skillCategories: [
+      { key: "languages", title: "Sprachen", skills: ["Python", "C#", "JavaScript", "TypeScript", "HTML", "CSS"] },
+      { key: "frameworks", title: "Frameworks / Bibliotheken", skills: ["Angular", "NestJS", ".NET Framework"] },
+      { key: "databases", title: "Datenbanken", skills: ["SQL", "MySQL", "Modellierung", "Abfragen", "Optimierung"] },
+      { key: "version", title: "Versionskontrolle", skills: ["Git", "GitHub"] },
+      { key: "data", title: "Daten & KI", skills: ["IBM SPSS Modeler", "IBM SPSS Statistics", "MATLAB", "Explorative Datenanalyse (EDA)"] },
+      { key: "simulation", title: "Simulation & Prozesse", skills: ["AnyLogic", "Bizagi Modeler"] },
+      { key: "design", title: "Design & UX", skills: ["Figma", "Axure", "UML"] },
+      { key: "iot", title: "IoT / Hardware", skills: ["Arduino"] },
+      { key: "methods", title: "Methoden", skills: ["Scrum", "Agile Methoden", "Projektmanagement", "Qualitätsmanagement"] }
+    ],
 
     // Projects
     projectsTitle: "PROJEKTARCHIV",
@@ -572,7 +593,7 @@ export const translations = {
         description: "Abschließendes integratives Projekt für den Systemingenieur-Abschluss",
         image: "/assets/projects/proyecto-final.png",
         technologies: ["Flutter", "Dart", "NextJS", "PostgreSQL", "TypeScript"],
-        date: "2024 - Heute"
+        date: "2025 - Heute"
       },
       {
         name: "WPC-Verwaltungssystem",
@@ -581,7 +602,7 @@ export const translations = {
         description: "100% funktionsfähiges Verwaltungssystem mit bewährten Softwaredesign-Praktiken",
         image: "/assets/projects/wpc.png",
         technologies: ["UML", "Software-Architektur", "Entwurfsmuster"],
-        date: "2024"
+        date: "2023 - 2026"
       },
       {
         name: "React-Expertensystem",

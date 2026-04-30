@@ -17,6 +17,71 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
   const [mailMessage, setMailMessage] = useState('');
   const t = translations[language];
   const ui = t.nodeContent;
+  const skillStyleMap: Record<string, { icon: typeof Code; wrapper: string; iconClass: string; titleClass: string; chipClass: string }> = {
+    languages: {
+      icon: Code,
+      wrapper: "bg-violet-950/30 border-violet-500/30",
+      iconClass: "text-violet-400",
+      titleClass: "text-violet-400",
+      chipClass: "bg-violet-500/20 text-violet-300 border-violet-500/30"
+    },
+    frameworks: {
+      icon: Database,
+      wrapper: "bg-cyan-950/30 border-cyan-500/30",
+      iconClass: "text-cyan-400",
+      titleClass: "text-cyan-400",
+      chipClass: "bg-cyan-500/20 text-cyan-300 border-cyan-500/30"
+    },
+    databases: {
+      icon: Database,
+      wrapper: "bg-sky-950/30 border-sky-500/30",
+      iconClass: "text-sky-400",
+      titleClass: "text-sky-400",
+      chipClass: "bg-sky-500/20 text-sky-300 border-sky-500/30"
+    },
+    version: {
+      icon: Terminal,
+      wrapper: "bg-pink-950/30 border-pink-500/30",
+      iconClass: "text-pink-400",
+      titleClass: "text-pink-400",
+      chipClass: "bg-pink-500/20 text-pink-300 border-pink-500/30"
+    },
+    data: {
+      icon: Zap,
+      wrapper: "bg-emerald-950/30 border-emerald-500/30",
+      iconClass: "text-emerald-400",
+      titleClass: "text-emerald-400",
+      chipClass: "bg-emerald-500/20 text-emerald-300 border-emerald-500/30"
+    },
+    simulation: {
+      icon: Terminal,
+      wrapper: "bg-amber-950/30 border-amber-500/30",
+      iconClass: "text-amber-400",
+      titleClass: "text-amber-400",
+      chipClass: "bg-amber-500/20 text-amber-300 border-amber-500/30"
+    },
+    design: {
+      icon: Code,
+      wrapper: "bg-fuchsia-950/30 border-fuchsia-500/30",
+      iconClass: "text-fuchsia-400",
+      titleClass: "text-fuchsia-400",
+      chipClass: "bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-500/30"
+    },
+    iot: {
+      icon: Terminal,
+      wrapper: "bg-orange-950/30 border-orange-500/30",
+      iconClass: "text-orange-400",
+      titleClass: "text-orange-400",
+      chipClass: "bg-orange-500/20 text-orange-300 border-orange-500/30"
+    },
+    methods: {
+      icon: Database,
+      wrapper: "bg-indigo-950/30 border-indigo-500/30",
+      iconClass: "text-indigo-400",
+      titleClass: "text-indigo-400",
+      chipClass: "bg-indigo-500/20 text-indigo-300 border-indigo-500/30"
+    }
+  };
   const socialLinks = [
     { icon: Github, label: "GitHub", href: "https://github.com/FausssG" },
     { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/faustino-gnavi/" },
@@ -131,42 +196,47 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
               {t.missionText}
             </p>
           </div>
+          <div className="p-4 bg-emerald-950/30 border border-emerald-500/30 rounded-lg">
+            <h4 className="text-emerald-400 font-mono mb-2">{t.interpersonalSkillsTitle}</h4>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              {t.interpersonalSkillsText}
+            </p>
+          </div>
         </div>
       )
     },
     skills: {
       title: t.skillsTitle,
       component: (
-        <div className="space-y-3">
-          {[
-            { category: t.skillCategories.frontend.title, skills: t.skillCategories.frontend.skills, icon: Code, color: "violet" },
-            { category: t.skillCategories.backend.title, skills: t.skillCategories.backend.skills, icon: Database, color: "cyan" },
-            { category: t.skillCategories.data.title, skills: t.skillCategories.data.skills, icon: Zap, color: "emerald" },
-            { category: t.skillCategories.tools.title, skills: t.skillCategories.tools.skills, icon: Terminal, color: "pink" }
-          ].map((group, i) => (
+        <div className="space-y-3 -mr-2 sm:-mr-4 pr-2 sm:pr-4" style={{ maxHeight: 'calc(70vh - 200px)', overflowY: 'auto', overflowX: 'hidden', WebkitOverflowScrolling: 'touch' }}>
+          {t.skillCategories.map((group, i) => {
+            const style = skillStyleMap[group.key] ?? skillStyleMap.languages;
+
+            return (
             <motion.div
-              key={group.category}
+              key={group.key}
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.1 }}
-              className={`p-4 bg-${group.color}-950/30 border border-${group.color}-500/30 rounded-lg`}
+              className={`p-4 ${style.wrapper} border rounded-lg`}
             >
               <div className="flex items-center gap-2 mb-3">
-                <group.icon className={`w-5 h-5 text-${group.color}-400`} />
-                <h4 className={`text-${group.color}-400 font-mono`}>{group.category}</h4>
+                <style.icon className={`w-5 h-5 ${style.iconClass}`} />
+                <h4 className={`${style.titleClass} font-mono`}>{group.title}</h4>
               </div>
               <div className="flex flex-wrap gap-2">
                 {group.skills.map(skill => (
                   <span
                     key={skill}
-                    className={`px-3 py-1 bg-${group.color}-500/20 text-${group.color}-300 rounded-full text-xs font-mono border border-${group.color}-500/30`}
+                    className={`px-3 py-1 ${style.chipClass} rounded-full text-xs font-mono border`}
                   >
                     {skill}
                   </span>
                 ))}
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
       )
     },

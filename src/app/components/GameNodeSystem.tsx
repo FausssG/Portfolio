@@ -115,6 +115,9 @@ export function GameNodeSystem({
     title: t.nodes[node.id as keyof typeof t.nodes]?.title ?? node.title,
     description: t.nodes[node.id as keyof typeof t.nodes]?.description ?? node.description,
   }));
+  const showConnectionLines = false;
+  const NODE_SHIFT_X_PERCENT = 0;
+  const NODE_SHIFT_Y_PERCENT = 0;
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [unlockedNodes, setUnlockedNodes] = useState<string[]>(["main"]);
@@ -163,8 +166,8 @@ export function GameNodeSystem({
   }, []);
 
   const toPixelPoint = (position: { x: number; y: number }) => ({
-    x: (position.x / 100) * containerSize.width,
-    y: (position.y / 100) * containerSize.height,
+    x: ((position.x + NODE_SHIFT_X_PERCENT) / 100) * containerSize.width,
+    y: ((position.y + NODE_SHIFT_Y_PERCENT) / 100) * containerSize.height,
   });
 
   // Pan handlers for desktop (mouse)
@@ -605,89 +608,90 @@ export function GameNodeSystem({
           pointerEvents: 'none'
         }}
       >
-        {/* Connection lines */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none" width={containerSize.width} height={containerSize.height}>
-          <defs>
-            <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(139, 92, 246, 0.4)" />
-              <stop offset="100%" stopColor="rgba(34, 211, 238, 0.4)" />
-            </linearGradient>
-            <linearGradient id="activePathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(139, 92, 246, 0.8)" />
-              <stop offset="100%" stopColor="rgba(34, 211, 238, 0.8)" />
-            </linearGradient>
-          </defs>
+        {showConnectionLines && (
+          <svg className="absolute inset-0 w-full h-full pointer-events-none" width={containerSize.width} height={containerSize.height}>
+            <defs>
+              <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="rgba(139, 92, 246, 0.4)" />
+                <stop offset="100%" stopColor="rgba(34, 211, 238, 0.4)" />
+              </linearGradient>
+              <linearGradient id="activePathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="rgba(139, 92, 246, 0.8)" />
+                <stop offset="100%" stopColor="rgba(34, 211, 238, 0.8)" />
+              </linearGradient>
+            </defs>
 
-          {nodes.map((node) =>
-            node.requiredNodes?.map((reqId) => {
-              const reqNode = nodes.find(n => n.id === reqId);
-              if (!reqNode) return null;
+            {nodes.map((node) =>
+              node.requiredNodes?.map((reqId) => {
+                const reqNode = nodes.find(n => n.id === reqId);
+                if (!reqNode) return null;
 
-              const start = toPixelPoint(reqNode.position);
-              const end = toPixelPoint(node.position);
+                const start = toPixelPoint(reqNode.position);
+                const end = toPixelPoint(node.position);
 
-              const isUnlocked = unlockedNodes.includes(node.id);
-              const isActive = visitedNodes.includes(node.id) && visitedNodes.includes(reqId);
+                const isUnlocked = unlockedNodes.includes(node.id);
+                const isActive = visitedNodes.includes(node.id) && visitedNodes.includes(reqId);
 
-              // Subdivide into segments
-              const SEGMENT_COUNT = 8;
-              const segments: Array<{ x1: number; y1: number; x2: number; y2: number }> = [];
-              for (let i = 0; i < SEGMENT_COUNT; i++) {
-                const t1 = i / SEGMENT_COUNT;
-                const t2 = (i + 1) / SEGMENT_COUNT;
-                segments.push({
-                  x1: start.x + (end.x - start.x) * t1,
-                  y1: start.y + (end.y - start.y) * t1,
-                  x2: start.x + (end.x - start.x) * t2,
-                  y2: start.y + (end.y - start.y) * t2,
-                });
-              }
+                // Subdivide into segments
+                const SEGMENT_COUNT = 8;
+                const segments: Array<{ x1: number; y1: number; x2: number; y2: number }> = [];
+                for (let i = 0; i < SEGMENT_COUNT; i++) {
+                  const t1 = i / SEGMENT_COUNT;
+                  const t2 = (i + 1) / SEGMENT_COUNT;
+                  segments.push({
+                    x1: start.x + (end.x - start.x) * t1,
+                    y1: start.y + (end.y - start.y) * t1,
+                    x2: start.x + (end.x - start.x) * t2,
+                    y2: start.y + (end.y - start.y) * t2,
+                  });
+                }
 
-              return (
-                <g key={`${reqId}-${node.id}`}>
-                  {segments.map((seg, i) => {
-                    const segmentKey = `${reqId}-${node.id}-seg-${i}`;
-                    // If connection is unlocked, animate segments sequentially when showUnlockEffect equals node id
-                    const shouldAnimateNow = showUnlockEffect === node.id;
+                return (
+                  <g key={`${reqId}-${node.id}`}>
+                    {segments.map((seg, i) => {
+                      const segmentKey = `${reqId}-${node.id}-seg-${i}`;
+                      // If connection is unlocked, animate segments sequentially when showUnlockEffect equals node id
+                      const shouldAnimateNow = showUnlockEffect === node.id;
 
-                    const stroke = isUnlocked ? "url(#activePathGradient)" : "url(#pathGradient)";
-                    const baseOpacity = isUnlocked ? 1 : 0.22;
-                    const strokeW = isActive ? 1.6 : 1;
+                      const stroke = isUnlocked ? "url(#activePathGradient)" : "url(#pathGradient)";
+                      const baseOpacity = isUnlocked ? 1 : 0.22;
+                      const strokeW = isActive ? 1.6 : 1;
 
-                    return (
-                      <motion.line
-                        key={segmentKey}
-                        x1={seg.x1}
-                        y1={seg.y1}
-                        x2={seg.x2}
-                        y2={seg.y2}
-                        stroke={stroke}
-                        strokeWidth={strokeW}
-                        strokeLinecap="round"
-                        initial={{ opacity: shouldAnimateNow ? 0 : baseOpacity }}
-                        animate={{ opacity: isUnlocked ? 1 : baseOpacity }}
-                        transition={{ duration: 0.35, delay: shouldAnimateNow ? i * 0.06 : 0 }}
-                      />
-                    );
-                  })}
+                      return (
+                        <motion.line
+                          key={segmentKey}
+                          x1={seg.x1}
+                          y1={seg.y1}
+                          x2={seg.x2}
+                          y2={seg.y2}
+                          stroke={stroke}
+                          strokeWidth={strokeW}
+                          strokeLinecap="round"
+                          initial={{ opacity: shouldAnimateNow ? 0 : baseOpacity }}
+                          animate={{ opacity: isUnlocked ? 1 : baseOpacity }}
+                          transition={{ duration: 0.35, delay: shouldAnimateNow ? i * 0.06 : 0 }}
+                        />
+                      );
+                    })}
 
-                  {/* Traveling particle still follows whole path */}
-                  {travelingTo === node.id && currentNode === reqId && (
-                    <motion.circle
-                      r="1"
-                      fill="rgba(34, 211, 238, 1)"
-                      initial={{ cx: start.x, cy: start.y }}
-                      animate={{ cx: end.x, cy: end.y }}
-                      transition={{ duration: 0.8, ease: "easeInOut" }}
-                    >
-                      <animate attributeName="r" values="0.8;1.3;0.8" dur="0.5s" repeatCount="indefinite" />
-                    </motion.circle>
-                  )}
-                </g>
-              );
-            })
-          )}
-        </svg>
+                    {/* Traveling particle still follows whole path */}
+                    {travelingTo === node.id && currentNode === reqId && (
+                      <motion.circle
+                        r="1"
+                        fill="rgba(34, 211, 238, 1)"
+                        initial={{ cx: start.x, cy: start.y }}
+                        animate={{ cx: end.x, cy: end.y }}
+                        transition={{ duration: 0.8, ease: "easeInOut" }}
+                      >
+                        <animate attributeName="r" values="0.8;1.3;0.8" dur="0.5s" repeatCount="indefinite" />
+                      </motion.circle>
+                    )}
+                  </g>
+                );
+              })
+            )}
+          </svg>
+        )}
 
         {/* Nodes */}
           {localizedNodes.map((node, index) => {
