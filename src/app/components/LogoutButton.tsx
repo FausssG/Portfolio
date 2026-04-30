@@ -24,7 +24,7 @@ export function LogoutButton({ onLogout, language }: { onLogout: () => void; lan
         onClick={() => setShowConfirm(true)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className="fixed top-4 right-4 z-20 px-4 py-2 bg-red-600/80 backdrop-blur-xl border border-red-500/30 rounded-lg shadow-lg hover:shadow-red-500/50 transition-all flex items-center gap-2 group"
+        className="fixed bottom-4 left-4 z-20 px-4 py-2 bg-red-600/80 backdrop-blur-xl border border-red-500/30 rounded-lg shadow-lg hover:shadow-red-500/50 transition-all flex items-center gap-2 group"
       >
         <LogOut className="w-4 h-4 text-white group-hover:rotate-180 transition-transform duration-300" />
         <span className="text-white font-mono text-sm hidden md:inline">{t.logout}</span>

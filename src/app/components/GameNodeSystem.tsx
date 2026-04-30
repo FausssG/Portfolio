@@ -130,6 +130,7 @@ export function GameNodeSystem({
   const [easterEggFound, setEasterEggFound] = useState(false);
   const [easterEggClicks, setEasterEggClicks] = useState(0);
   const [glitchEffect, setGlitchEffect] = useState(false);
+  const [showMobilePanel, setShowMobilePanel] = useState(false);
 
   // Pan/Drag functionality
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
@@ -334,7 +335,8 @@ export function GameNodeSystem({
       }} />
 
       {/* Progress HUD - Responsive */}
-      <div className="fixed top-16 sm:top-20 right-2 sm:right-4 z-20 p-3 sm:p-4 bg-black/80 backdrop-blur-xl border border-violet-500/30 rounded-xl w-[180px] sm:min-w-[200px]">
+      {/* Progress HUD - Desktop */}
+      <div className="hidden sm:block fixed top-4 right-4 z-20 p-3 sm:p-4 bg-black/80 backdrop-blur-xl border border-violet-500/30 rounded-xl w-[180px] sm:min-w-[200px]">
         <div className="space-y-2 sm:space-y-3">
           <div>
             <div className="flex justify-between text-[10px] sm:text-xs text-violet-400 font-mono mb-1">
@@ -418,6 +420,131 @@ export function GameNodeSystem({
         </div>
       </div>
 
+      {/* Compact mobile progress button */}
+      <div className="sm:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-20">
+        <button
+          onClick={() => setShowMobilePanel(true)}
+          className="w-14 h-14 rounded-full bg-black/70 border border-violet-500/30 flex items-center justify-center hover:bg-black/80 transition-colors"
+          aria-label="Open progress details"
+        >
+          <div className="text-xs font-mono text-cyan-300 font-bold">{completionPercentage}%</div>
+        </button>
+      </div>
+
+      {/* Mobile Progress Bubble Pop-up */}
+      <AnimatePresence>
+        {showMobilePanel && (
+          <motion.div
+            key="mobile-panel-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="sm:hidden fixed inset-0 z-40 flex items-center justify-center p-4"
+            onClick={() => setShowMobilePanel(false)}
+          >
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+
+            <motion.div
+              initial={{ scale: 0, opacity: 0, y: "calc(100vh - 80px)" }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0, opacity: 0, y: "calc(100vh - 80px)" }}
+              transition={{ duration: 0.35, type: "spring", stiffness: 400, damping: 30 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative bg-slate-900/98 backdrop-blur-xl border border-violet-500/40 rounded-3xl p-5 max-w-[85vw] shadow-2xl shadow-violet-500/20"
+              style={{ originY: 1 }}
+            >
+              <button
+                onClick={() => setShowMobilePanel(false)}
+                className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-red-600/80 hover:bg-red-600 text-white text-xs flex items-center justify-center transition-colors"
+              >
+                ✕
+              </button>
+
+              <div className="space-y-3">
+                <div className="text-center">
+                  <h2 className="text-lg font-mono text-white mb-3 font-bold">{ui.progress}</h2>
+
+                  <div className="flex items-center justify-around mb-3">
+                    <div className="text-center">
+                      <div className="text-3xl font-mono text-cyan-400 font-bold">{completionPercentage}%</div>
+                      <div className="text-[10px] text-gray-400 mt-0.5">complete</div>
+                    </div>
+                    <div className="border-l border-white/10 h-12 mx-2" />
+                    <div className="text-center">
+                      <div className="text-2xl font-mono text-yellow-300 font-bold">{totalXP}</div>
+                      <div className="text-[10px] text-gray-400 mt-0.5">XP</div>
+                    </div>
+                  </div>
+
+                  <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                    <motion.div
+                      className="h-full bg-gradient-to-r from-violet-500 via-cyan-500 to-cyan-400"
+                      initial={{ width: 0 }}
+                      animate={{ width: `${completionPercentage}%` }}
+                      transition={{ duration: 0.5 }}
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2 text-sm">
+                  <div className="flex items-center justify-between text-gray-300 font-mono text-xs">
+                    <span>{ui.nodes} visited:</span>
+                    <span className="text-cyan-300 font-bold">{regularVisited.length} / {regularNodes.length}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-gray-300 font-mono text-xs">
+                    <span>Nodes unlocked:</span>
+                    <span className="text-violet-300 font-bold">{unlockedNodes.length}</span>
+                  </div>
+                </div>
+
+                {/* Hidden Easter Egg - small and subtle */}
+                {!easterEggFound && (
+                  <motion.button
+                    onClick={() => { handleEasterEggClick(); }}
+                    className="mt-2 w-full p-1.5 bg-slate-800/40 border border-slate-700/20 rounded-lg hover:bg-slate-800/60 transition-colors group opacity-60 hover:opacity-100"
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
+                  >
+                    <motion.div
+                      animate={{
+                        opacity: glitchEffect ? [0.5, 0.1, 0.5, 0.3, 0.5] : 0.5,
+                        x: glitchEffect ? [0, -1, 1, 0] : 0,
+                      }}
+                      transition={{ duration: 0.2 }}
+                      className="text-[7px] font-mono text-gray-600 group-hover:text-gray-500 transition-colors leading-tight"
+                    >
+                      <div>01001000</div>
+                    </motion.div>
+                  </motion.button>
+                )}
+
+                {easterEggClicks > 0 && !easterEggFound && (
+                  <div className="mt-1 h-1 bg-slate-800 rounded-full overflow-hidden">
+                    <motion.div
+                      className="h-full bg-gradient-to-r from-yellow-500 to-orange-500"
+                      initial={{ width: 0 }}
+                      animate={{ width: `${(easterEggClicks / 7) * 100}%` }}
+                    />
+                  </div>
+                )}
+
+                {easterEggFound && (
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="mt-2 p-2 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/50 rounded-lg text-center"
+                  >
+                    <div className="text-[11px] text-yellow-300 font-mono">
+                      ✨ {ui.secretUnlocked}
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Unlock toast - top center */}
       <AnimatePresence>
         {unlockToast && (
@@ -499,25 +626,52 @@ export function GameNodeSystem({
               const start = toPixelPoint(reqNode.position);
               const end = toPixelPoint(node.position);
 
+              const isUnlocked = unlockedNodes.includes(node.id);
               const isActive = visitedNodes.includes(node.id) && visitedNodes.includes(reqId);
+
+              // Subdivide into segments
+              const SEGMENT_COUNT = 8;
+              const segments: Array<{ x1: number; y1: number; x2: number; y2: number }> = [];
+              for (let i = 0; i < SEGMENT_COUNT; i++) {
+                const t1 = i / SEGMENT_COUNT;
+                const t2 = (i + 1) / SEGMENT_COUNT;
+                segments.push({
+                  x1: start.x + (end.x - start.x) * t1,
+                  y1: start.y + (end.y - start.y) * t1,
+                  x2: start.x + (end.x - start.x) * t2,
+                  y2: start.y + (end.y - start.y) * t2,
+                });
+              }
 
               return (
                 <g key={`${reqId}-${node.id}`}>
-                  <motion.line
-                    x1={start.x}
-                    y1={start.y}
-                    x2={end.x}
-                    y2={end.y}
-                    stroke={isActive ? "url(#activePathGradient)" : "url(#pathGradient)"}
-                    strokeWidth={isActive ? 1.5 : 1}
-                    strokeDasharray={isActive ? "0" : "2,2"}
-                    initial={{ pathLength: 0, opacity: 0 }}
-                    animate={{ pathLength: 1, opacity: 1 }}
-                    transition={{ duration: 1, delay: 0.2 }}
-                    strokeLinecap="round"
-                  />
+                  {segments.map((seg, i) => {
+                    const segmentKey = `${reqId}-${node.id}-seg-${i}`;
+                    // If connection is unlocked, animate segments sequentially when showUnlockEffect equals node id
+                    const shouldAnimateNow = showUnlockEffect === node.id;
 
-                  {/* Traveling particle */}
+                    const stroke = isUnlocked ? "url(#activePathGradient)" : "url(#pathGradient)";
+                    const baseOpacity = isUnlocked ? 1 : 0.22;
+                    const strokeW = isActive ? 1.6 : 1;
+
+                    return (
+                      <motion.line
+                        key={segmentKey}
+                        x1={seg.x1}
+                        y1={seg.y1}
+                        x2={seg.x2}
+                        y2={seg.y2}
+                        stroke={stroke}
+                        strokeWidth={strokeW}
+                        strokeLinecap="round"
+                        initial={{ opacity: shouldAnimateNow ? 0 : baseOpacity }}
+                        animate={{ opacity: isUnlocked ? 1 : baseOpacity }}
+                        transition={{ duration: 0.35, delay: shouldAnimateNow ? i * 0.06 : 0 }}
+                      />
+                    );
+                  })}
+
+                  {/* Traveling particle still follows whole path */}
                   {travelingTo === node.id && currentNode === reqId && (
                     <motion.circle
                       r="1"
@@ -545,9 +699,13 @@ export function GameNodeSystem({
           const isCurrent = currentNode === node.id;
           const isSecret = node.id === "secret";
 
-          // Apply offset to secret node to not overlap with main
-          const leftPosition = isSecret ? `calc(${node.position.x}% + 10vw)` : `${node.position.x}%`;
-          const topPosition = isSecret ? `calc(${node.position.y}% + 10vh)` : `${node.position.y}%`;
+          // Compute pixel positions so SVG lines and nodes share coordinates
+          const pixel = toPixelPoint(node.position);
+          // Apply secret offset in pixels (10vw/10vh equivalent)
+          const secretOffsetX = isSecret ? (containerSize.width * 0.10) : 0;
+          const secretOffsetY = isSecret ? (containerSize.height * 0.10) : 0;
+          const leftPosition = `${pixel.x + secretOffsetX}px`;
+          const topPosition = `${pixel.y + secretOffsetY}px`;
 
           return (
           <motion.div
