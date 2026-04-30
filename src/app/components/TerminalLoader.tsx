@@ -1,16 +1,10 @@
 import { motion, AnimatePresence } from "motion/react";
 import { useEffect, useState } from "react";
+import { translations, Language } from "../utils/translations";
 
-const bootSequence = [
-  "INICIALIZANDO SISTEMA...",
-  "CARGANDO MÓDULOS PRINCIPALES...",
-  "ESTABLECIENDO CONEXIÓN NEURAL...",
-  "SINCRONIZANDO BASE DE DATOS...",
-  "ACTIVANDO INTERFAZ GRÁFICA...",
-  "SISTEMA LISTO. BIENVENIDO."
-];
-
-export function TerminalLoader({ onComplete }: { onComplete: () => void }) {
+export function TerminalLoader({ onComplete, language }: { onComplete: () => void; language: Language }) {
+  const t = translations[language].terminalLoader;
+  const bootSequence = t.sequence;
   const [currentLine, setCurrentLine] = useState(0);
   const [progress, setProgress] = useState(0);
 
@@ -91,7 +85,7 @@ export function TerminalLoader({ onComplete }: { onComplete: () => void }) {
                 className="mt-6 space-y-2"
               >
                 <div className="flex justify-between text-cyan-400 text-xs">
-                  <span>PROGRESO</span>
+                  <span>{t.progress}</span>
                   <span>{Math.round(progress)}%</span>
                 </div>
                 <div className="h-2 bg-slate-800 rounded-full overflow-hidden border border-cyan-500/30">
@@ -120,7 +114,7 @@ export function TerminalLoader({ onComplete }: { onComplete: () => void }) {
           transition={{ duration: 1.5, repeat: Infinity }}
           className="text-center mt-4 text-cyan-400 font-mono text-sm"
         >
-          CONSTRUYENDO EXPERIENCIA INTERACTIVA...
+          {t.footer}
         </motion.div>
       </div>
     </motion.div>

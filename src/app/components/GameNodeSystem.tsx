@@ -1,6 +1,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { User, Code, Mail, Briefcase, Terminal, Cpu, Database, Globe, Lock, Check } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { translations, Language } from "../utils/translations";
 
 interface NodeData {
   id: string;
@@ -96,7 +97,26 @@ const nodes: NodeData[] = [
   }
 ];
 
-export function GameNodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string) => void }) {
+export function GameNodeSystem({
+  onNodeSelect,
+  completedNodeId,
+  unlockSequence,
+  language,
+}: {
+  onNodeSelect: (nodeId: string) => void;
+  completedNodeId: string | null;
+  unlockSequence: number;
+  language: Language;
+}) {
+  const t = translations[language];
+  const ui = t.nodeSystem;
+  const localizedNodes = nodes.map(node => ({
+    ...node,
+    title: t.nodes[node.id as keyof typeof t.nodes]?.title ?? node.title,
+    description: t.nodes[node.id as keyof typeof t.nodes]?.description ?? node.description,
+  }));
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
   const [unlockedNodes, setUnlockedNodes] = useState<string[]>(["main"]);
   const [visitedNodes, setVisitedNodes] = useState<string[]>([]);
   const [currentNode, setCurrentNode] = useState<string>("main");
@@ -104,6 +124,7 @@ export function GameNodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string
   const [travelingTo, setTravelingTo] = useState<string | null>(null);
   const [totalXP, setTotalXP] = useState<number>(0);
   const [showUnlockEffect, setShowUnlockEffect] = useState<string | null>(null);
+  const [unlockToast, setUnlockToast] = useState<{ title: string; xp: number } | null>(null);
   const [xpParticles, setXpParticles] = useState<Array<{ id: number; amount: number; x: number; y: number }>>([]);
   const [secretNodeVisible, setSecretNodeVisible] = useState(false);
   const [easterEggFound, setEasterEggFound] = useState(false);
@@ -118,6 +139,32 @@ export function GameNodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string
   // Pan limits (prevent going too far)
   const PAN_LIMIT = 300;
   const clampPan = (value: number) => Math.max(-PAN_LIMIT, Math.min(PAN_LIMIT, value));
+
+  useEffect(() => {
+    const updateSize = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      setContainerSize({ width: rect.width, height: rect.height });
+    };
+
+    updateSize();
+
+    const resizeObserver = new ResizeObserver(updateSize);
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
+
+    window.addEventListener('resize', updateSize);
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateSize);
+    };
+  }, []);
+
+  const toPixelPoint = (position: { x: number; y: number }) => ({
+    x: (position.x / 100) * containerSize.width,
+    y: (position.y / 100) * containerSize.height,
+  });
 
   // Pan handlers for desktop (mouse)
   const handleMouseDown = (e: React.MouseEvent) => {
@@ -179,6 +226,60 @@ export function GameNodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string
     }
   };
 
+  useEffect(() => {
+    if (!completedNodeId) return;
+
+    const node = nodes.find(n => n.id === completedNodeId);
+    if (!node) return;
+    const localizedNode = localizedNodes.find(n => n.id === completedNodeId) ?? node;
+
+    let isNewVisit = false;
+    setVisitedNodes(prev => {
+      if (prev.includes(completedNodeId)) return prev;
+      isNewVisit = true;
+      return [...prev, completedNodeId];
+    });
+
+    if (!isNewVisit) return;
+
+    const xpReward = node.xpReward ?? 0;
+
+    setCurrentNode(completedNodeId);
+
+    if (xpReward > 0) {
+      setTotalXP(prev => prev + xpReward);
+
+      const particleId = Date.now();
+      setXpParticles(prev => [...prev, {
+        id: particleId,
+        amount: xpReward,
+        x: node.position.x,
+        y: node.position.y,
+      }]);
+
+      setTimeout(() => {
+        setXpParticles(prev => prev.filter(p => p.id !== particleId));
+      }, 2000);
+    }
+
+    const connectedNodes = nodes
+      .filter(n => n.requiredNodes?.includes(completedNodeId))
+      .map(n => n.id);
+
+    const newUnlocks = connectedNodes.filter(id => !unlockedNodes.includes(id));
+
+    if (newUnlocks.length > 0) {
+      setUnlockedNodes(prev => Array.from(new Set([...prev, ...newUnlocks])));
+      newUnlocks.forEach(id => {
+        setShowUnlockEffect(id);
+        setTimeout(() => setShowUnlockEffect(null), 2000);
+      });
+    }
+
+    setUnlockToast({ title: localizedNode.title, xp: xpReward });
+    setTimeout(() => setUnlockToast(null), 2200);
+  }, [completedNodeId, unlockSequence, language]);
+
   const isNodeUnlocked = (nodeId: string) => {
     const node = nodes.find(n => n.id === nodeId);
     if (!node || !node.requiredNodes) return unlockedNodes.includes(nodeId);
@@ -195,44 +296,6 @@ export function GameNodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string
       setCurrentNode(nodeId);
       setTravelingTo(null);
       onNodeSelect(nodeId);
-
-      // Add to visited and unlock connected nodes
-      if (!visitedNodes.includes(nodeId)) {
-        setVisitedNodes([...visitedNodes, nodeId]);
-
-        // Add XP with particle effect
-        const node = nodes.find(n => n.id === nodeId);
-        if (node?.xpReward) {
-          setTotalXP(prev => prev + node.xpReward);
-
-          // Create XP particles
-          const particleId = Date.now();
-          setXpParticles(prev => [...prev, {
-            id: particleId,
-            amount: node.xpReward,
-            x: node.position.x,
-            y: node.position.y
-          }]);
-
-          setTimeout(() => {
-            setXpParticles(prev => prev.filter(p => p.id !== particleId));
-          }, 2000);
-        }
-
-        // Unlock connected nodes
-        const connectedNodes = nodes.filter(n =>
-          n.requiredNodes?.includes(nodeId)
-        ).map(n => n.id);
-
-        const newUnlocks = connectedNodes.filter(id => !unlockedNodes.includes(id));
-        if (newUnlocks.length > 0) {
-          setUnlockedNodes([...unlockedNodes, ...newUnlocks]);
-          newUnlocks.forEach(id => {
-            setShowUnlockEffect(id);
-            setTimeout(() => setShowUnlockEffect(null), 2000);
-          });
-        }
-      }
     }, 400);
   };
 
@@ -275,7 +338,7 @@ export function GameNodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string
         <div className="space-y-2 sm:space-y-3">
           <div>
             <div className="flex justify-between text-[10px] sm:text-xs text-violet-400 font-mono mb-1">
-              <span>PROGRESO</span>
+              <span>{ui.progress}</span>
               <span>{completionPercentage}%</span>
             </div>
             <div className="h-1.5 sm:h-2 bg-slate-800 rounded-full overflow-hidden">
@@ -302,7 +365,7 @@ export function GameNodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string
 
           <div className="text-[10px] sm:text-xs text-gray-400 font-mono">
             <div className="flex justify-between">
-              <span>Nodos:</span>
+              <span>{ui.nodes}:</span>
               <span className="text-cyan-400">{regularVisited.length}/{regularNodes.length}</span>
             </div>
           </div>
@@ -348,12 +411,31 @@ export function GameNodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string
               className="mt-2 p-2 bg-gradient-to-r from-yellow-500/20 to-orange-500/20 border border-yellow-500/50 rounded"
             >
               <div className="text-[10px] sm:text-xs text-yellow-300 font-mono text-center">
-                🎮 HACK DESBLOQUEADO!
+                {ui.secretUnlocked}
               </div>
             </motion.div>
           )}
         </div>
       </div>
+
+      {/* Unlock toast - top center */}
+      <AnimatePresence>
+        {unlockToast && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            className="fixed top-4 left-1/2 -translate-x-1/2 z-30 px-4 py-2 sm:px-5 sm:py-3 bg-gradient-to-r from-violet-600 to-cyan-600 border border-white/20 rounded-full shadow-2xl shadow-cyan-500/20 text-center"
+          >
+            <div className="text-[10px] sm:text-xs font-mono text-white uppercase tracking-[0.2em]">
+              {ui.unlockToastTitle}
+            </div>
+            <div className="text-sm sm:text-base font-mono text-cyan-100">
+              {unlockToast.title} +{unlockToast.xp} XP
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* XP Particles - Responsive */}
       <AnimatePresence>
@@ -389,6 +471,7 @@ export function GameNodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string
 
       {/* Pannable container for nodes and connections */}
       <div
+        ref={containerRef}
         className="absolute inset-0 transition-transform duration-100"
         style={{
           transform: `translate(${panOffset.x}px, ${panOffset.y}px)`,
@@ -396,7 +479,7 @@ export function GameNodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string
         }}
       >
         {/* Connection lines */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <svg className="absolute inset-0 w-full h-full pointer-events-none" width={containerSize.width} height={containerSize.height}>
           <defs>
             <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="rgba(139, 92, 246, 0.4)" />
@@ -413,27 +496,25 @@ export function GameNodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string
               const reqNode = nodes.find(n => n.id === reqId);
               if (!reqNode) return null;
 
-              // Use percentage positions directly
-              const x1 = reqNode.position.x;
-              const y1 = reqNode.position.y;
-              const x2 = node.position.x;
-              const y2 = node.position.y;
+              const start = toPixelPoint(reqNode.position);
+              const end = toPixelPoint(node.position);
 
               const isActive = visitedNodes.includes(node.id) && visitedNodes.includes(reqId);
 
               return (
                 <g key={`${reqId}-${node.id}`}>
                   <motion.line
-                    x1={x1}
-                    y1={y1}
-                    x2={x2}
-                    y2={y2}
+                    x1={start.x}
+                    y1={start.y}
+                    x2={end.x}
+                    y2={end.y}
                     stroke={isActive ? "url(#activePathGradient)" : "url(#pathGradient)"}
-                    strokeWidth={isActive ? 0.5 : 0.3}
+                    strokeWidth={isActive ? 1.5 : 1}
                     strokeDasharray={isActive ? "0" : "2,2"}
                     initial={{ pathLength: 0, opacity: 0 }}
                     animate={{ pathLength: 1, opacity: 1 }}
                     transition={{ duration: 1, delay: 0.2 }}
+                    strokeLinecap="round"
                   />
 
                   {/* Traveling particle */}
@@ -441,8 +522,8 @@ export function GameNodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string
                     <motion.circle
                       r="1"
                       fill="rgba(34, 211, 238, 1)"
-                      initial={{ cx: x1, cy: y1 }}
-                      animate={{ cx: x2, cy: y2 }}
+                      initial={{ cx: start.x, cy: start.y }}
+                      animate={{ cx: end.x, cy: end.y }}
                       transition={{ duration: 0.8, ease: "easeInOut" }}
                     >
                       <animate attributeName="r" values="0.8;1.3;0.8" dur="0.5s" repeatCount="indefinite" />
@@ -455,7 +536,7 @@ export function GameNodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string
         </svg>
 
         {/* Nodes */}
-        {nodes.map((node, index) => {
+          {localizedNodes.map((node, index) => {
           // Hide secret node until unlocked
           if (node.id === "secret" && !secretNodeVisible) return null;
 
@@ -625,16 +706,16 @@ export function GameNodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string
                         : 'bg-slate-900/90 border-white/10'
                     }`}>
                       <p className={`text-xs font-mono ${isSecret ? 'text-yellow-300' : 'text-white'}`}>
-                        {node.title} {isSecret && '🎮'}
+                        {(t.nodes as Record<string, { title: string; description: string }>)[node.id]?.title || node.title} {isSecret && '🎮'}
                       </p>
                       <p className={`text-xs font-mono ${isSecret ? 'text-yellow-200' : 'text-gray-400'}`}>
-                        {node.description}
+                        {(t.nodes as Record<string, { title: string; description: string }>)[node.id]?.description || node.description}
                       </p>
                       {!unlocked && (
-                        <p className="text-xs text-red-400 font-mono mt-1">🔒 Bloqueado</p>
+                        <p className="text-xs text-red-400 font-mono mt-1">🔒 {ui.locked}</p>
                       )}
                       {isSecret && visited && (
-                        <p className="text-xs text-yellow-300 font-mono mt-1">✨ Easter Egg!</p>
+                        <p className="text-xs text-yellow-300 font-mono mt-1">✨ {ui.secretHint}</p>
                       )}
                     </div>
                   </motion.div>
@@ -676,8 +757,8 @@ export function GameNodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string
           className="fixed bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 px-4 sm:px-6 py-2 sm:py-3 bg-violet-600/90 backdrop-blur-xl border border-violet-400 rounded-full max-w-[90%] sm:max-w-none"
         >
           <p className="text-white font-mono text-xs sm:text-sm text-center">
-            👆 <span className="hidden sm:inline">Click en </span><span className="text-cyan-300">SISTEMA CENTRAL</span> para comenzar<span className="hidden sm:inline"> tu viaje</span>
-            <span className="block mt-1 text-[10px] sm:text-xs text-cyan-200">🖐️ Arrastra para explorar</span>
+            {ui.tutorial}
+            <span className="block mt-1 text-[10px] sm:text-xs text-cyan-200">{ui.dragHint}</span>
           </p>
         </motion.div>
       )}

@@ -1,15 +1,16 @@
 import { motion } from "motion/react";
 import { Home, User, Briefcase, Mail } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Language } from "../utils/translations";
 
-const navItems = [
-  { id: "hero", icon: Home, label: "Inicio" },
-  { id: "about", icon: User, label: "Sobre mí" },
-  { id: "projects", icon: Briefcase, label: "Proyectos" },
-  { id: "contact", icon: Mail, label: "Contacto" }
-];
+export function FloatingNav({ language = "es" as Language }: { language?: Language }) {
+  const navItems = [
+    { id: "hero", icon: Home, label: language === 'es' ? 'Inicio' : language === 'en' ? 'Home' : 'Start' },
+    { id: "about", icon: User, label: language === 'es' ? 'Sobre mí' : language === 'en' ? 'About me' : 'Über mich' },
+    { id: "projects", icon: Briefcase, label: language === 'es' ? 'Proyectos' : language === 'en' ? 'Projects' : 'Projekte' },
+    { id: "contact", icon: Mail, label: language === 'es' ? 'Contacto' : language === 'en' ? 'Contact' : 'Kontakt' }
+  ];
 
-export function FloatingNav() {
   const [activeSection, setActiveSection] = useState("hero");
 
   useEffect(() => {

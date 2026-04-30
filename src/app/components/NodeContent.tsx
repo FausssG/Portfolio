@@ -16,13 +16,19 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
   const [mailStatus, setMailStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [mailMessage, setMailMessage] = useState('');
   const t = translations[language];
+  const ui = t.nodeContent;
+  const socialLinks = [
+    { icon: Github, label: "GitHub", href: "https://github.com/FausssG" },
+    { icon: Linkedin, label: "LinkedIn", href: "https://www.linkedin.com/in/faustino-gnavi/" },
+    { icon: Mail, label: "Email", href: "mailto:faustinognavi@gmail.com" },
+  ];
 
   const handleContactSubmit = async (e: FormEvent) => {
     e.preventDefault();
     
     if (!formData.name || !formData.email || !formData.message) {
       setMailStatus('error');
-      setMailMessage('Por favor completa todos los campos');
+      setMailMessage(language === 'es' ? 'Por favor completa todos los campos' : language === 'en' ? 'Please fill in all fields' : 'Bitte füllen Sie alle Felder aus');
       setTimeout(() => setMailStatus('idle'), 3000);
       return;
     }
@@ -42,7 +48,7 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
 
       if (response.ok) {
         setMailStatus('success');
-        setMailMessage('¡Mensaje enviado exitosamente! 🎉');
+        setMailMessage(ui.sentSuccess);
         setFormData({ name: '', email: '', message: '' });
         setTimeout(() => setMailStatus('idle'), 3000);
       } else {
@@ -50,7 +56,7 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
       }
     } catch (error) {
       setMailStatus('error');
-      setMailMessage('Error al enviar el mensaje. Intenta de nuevo.');
+      setMailMessage(ui.sendError);
       setTimeout(() => setMailStatus('idle'), 3000);
     }
   };
@@ -223,7 +229,7 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
               <Download className="w-12 h-12 text-cyan-400" />
             </motion.div>
             <p className="text-gray-400 text-sm font-mono">
-              {t.lastUpdated}: Abril 2025
+              {t.lastUpdated}: 30/04/2026
             </p>
           </div>
 
@@ -286,7 +292,7 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
 
           <div className="mt-6 p-4 bg-violet-950/30 border border-violet-500/20 rounded-lg">
             <p className="text-xs text-violet-300 font-mono text-center">
-              💡 {language === "es" ? "Los archivos se descargarán automáticamente" : language === "en" ? "Files will download automatically" : "Dateien werden automatisch heruntergeladen"}
+              💡 {ui.downloadFilesHint}
             </p>
           </div>
         </div>
@@ -330,7 +336,7 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
                   : 'bg-gradient-to-r from-violet-600 to-cyan-600 hover:shadow-lg hover:shadow-cyan-500/50'
               }`}
             >
-              {mailStatus === 'sending' ? '⏳ Enviando...' : t.formLabels.submit}
+              {mailStatus === 'sending' ? `⏳ ${ui.sending}` : t.formLabels.submit}
             </button>
             
             {/* Feedback visual */}
@@ -354,7 +360,7 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
             )}
           </form>
           <div className="pt-3 border-t border-violet-500/20">
-            <p className="text-xs text-gray-400 font-mono mb-2">CONTACTO DIRECTO:</p>
+            <p className="text-xs text-gray-400 font-mono mb-2">{ui.contactDirect}</p>
             <div className="space-y-1 text-xs text-cyan-400 font-mono">
               <p>{t.contactInfo.email}</p>
               <p>{t.contactInfo.phone}</p>
@@ -362,24 +368,25 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
             </div>
           </div>
           <div className="grid grid-cols-3 gap-2">
-            {[
-              { icon: Github, label: "GitHub" },
-              { icon: Linkedin, label: "LinkedIn" },
-              { icon: Mail, label: "Email" }
-            ].map((social) => (
-              <button
+            {socialLinks.map((social) => (
+              <motion.a
                 key={social.label}
-                className="p-3 bg-violet-950/30 border border-violet-500/30 rounded hover:bg-violet-950/50 transition-all group"
+                href={social.href}
+                target="_blank"
+                rel="noreferrer"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="p-3 bg-violet-950/30 border border-violet-500/30 rounded hover:bg-violet-950/50 transition-all group text-center"
               >
                 <social.icon className="w-5 h-5 text-violet-400 mx-auto group-hover:text-cyan-400 transition-colors" />
-              </button>
+              </motion.a>
             ))}
           </div>
         </div>
       )
     },
     secret: {
-      title: "🎮 EASTER EGG",
+      title: t.nodes.secret.title,
       component: (
         <div className="space-y-4">
           <motion.div
@@ -394,13 +401,13 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
             <h3 className="text-3xl mb-2 bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent" style={{ fontWeight: 700 }}>
               ¡HACK EXITOSO!
             </h3>
-            <p className="text-yellow-400 font-mono mb-2">Sistema desbloqueado</p>
+            <p className="text-yellow-400 font-mono mb-2">{ui.unlockSystem}</p>
             <motion.div
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 2, repeat: Infinity }}
               className="text-xs text-orange-400 font-mono"
             >
-              +100 XP BONUS
+              +100 XP {ui.bonusUnlocked}
             </motion.div>
           </motion.div>
 
@@ -420,14 +427,14 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
               className="p-4 bg-yellow-950/20 border border-yellow-500/30 rounded-xl text-center"
             >
               <div className="text-2xl mb-1">🏆</div>
-              <div className="text-xs text-yellow-300 font-mono">Achievement</div>
+              <div className="text-xs text-yellow-300 font-mono">{ui.achievement}</div>
             </motion.div>
             <motion.div
               whileHover={{ scale: 1.05 }}
               className="p-4 bg-orange-950/20 border border-orange-500/30 rounded-xl text-center"
             >
               <div className="text-2xl mb-1">🎁</div>
-              <div className="text-xs text-orange-300 font-mono">Bonus Unlocked</div>
+              <div className="text-xs text-orange-300 font-mono">{ui.bonusUnlocked}</div>
             </motion.div>
           </div>
 
@@ -541,7 +548,7 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
             >
               <div className="flex items-center gap-2 text-[10px] sm:text-xs text-cyan-400 font-mono">
                 <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse" />
-                <span>SISTEMA ACTIVO</span>
+                <span>{ui.systemActive}</span>
               </div>
             </motion.div>
           </motion.div>

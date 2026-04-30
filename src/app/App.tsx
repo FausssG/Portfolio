@@ -17,6 +17,8 @@ export default function App() {
   const [showLogin, setShowLogin] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
+  const [completedNodeId, setCompletedNodeId] = useState<string | null>(null);
+  const [unlockSequence, setUnlockSequence] = useState(0);
   const [language, setLanguage] = useState<string>("es");
   const [showSystemHint, setShowSystemHint] = useState(false);
 
@@ -32,23 +34,36 @@ export default function App() {
     setSelectedNode(null);
   };
 
+  const handleNodeClose = () => {
+    if (selectedNode) {
+      setCompletedNodeId(selectedNode);
+      setUnlockSequence((current) => current + 1);
+    }
+    setSelectedNode(null);
+  };
+
   return (
     <div className="min-h-screen bg-slate-950 text-white overflow-hidden">
       {showLogin ? (
         <LoginScreen onLoginComplete={handleLoginComplete} />
       ) : isLoading ? (
-        <TerminalLoader onComplete={() => setIsLoading(false)} />
+        <TerminalLoader onComplete={() => setIsLoading(false)} language={language as any} />
       ) : (
         <>
           <MatrixRain />
           <ParticleNetwork />
           <div className="relative z-10">
-            <GameNodeSystem onNodeSelect={setSelectedNode} />
+            <GameNodeSystem
+              onNodeSelect={setSelectedNode}
+              completedNodeId={completedNodeId}
+              unlockSequence={unlockSequence}
+              language={language as any}
+            />
           </div>
           {selectedNode && (
             <NodeContent
               nodeId={selectedNode}
-              onClose={() => setSelectedNode(null)}
+              onClose={handleNodeClose}
               language={language as any}
             />
           )}

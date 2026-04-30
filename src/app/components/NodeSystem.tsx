@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { User, Code, Mail, Briefcase, Terminal, Cpu, Database, Globe } from "lucide-react";
 import { useState } from "react";
+import { translations, Language } from "../utils/translations";
 
 interface NodeData {
   id: string;
@@ -11,69 +12,70 @@ interface NodeData {
   description: string;
 }
 
-const nodes: NodeData[] = [
-  {
-    id: "main",
-    title: "SISTEMA CENTRAL",
-    icon: Cpu,
-    position: { x: 50, y: 50 },
-    color: "from-violet-500 to-purple-600",
-    description: "Núcleo del sistema"
-  },
-  {
-    id: "about",
-    title: "PERFIL",
-    icon: User,
-    position: { x: 50, y: 15 },
-    color: "from-cyan-500 to-blue-600",
-    description: "Información personal"
-  },
-  {
-    id: "skills",
-    title: "HABILIDADES",
-    icon: Code,
-    position: { x: 80, y: 30 },
-    color: "from-emerald-500 to-green-600",
-    description: "Stack tecnológico"
-  },
-  {
-    id: "projects",
-    title: "PROYECTOS",
-    icon: Briefcase,
-    position: { x: 85, y: 65 },
-    color: "from-pink-500 to-rose-600",
-    description: "Portfolio de trabajos"
-  },
-  {
-    id: "contact",
-    title: "CONTACTO",
-    icon: Mail,
-    position: { x: 50, y: 85 },
-    color: "from-orange-500 to-amber-600",
-    description: "Red de comunicación"
-  },
-  {
-    id: "cv",
-    title: "CURRICULUM",
-    icon: Database,
-    position: { x: 15, y: 65 },
-    color: "from-teal-500 to-cyan-600",
-    description: "Descargar CV"
-  },
-  {
-    id: "languages",
-    title: "IDIOMAS",
-    icon: Globe,
-    position: { x: 20, y: 30 },
-    color: "from-indigo-500 to-violet-600",
-    description: "Certificaciones"
-  }
-];
-
-export function NodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string) => void }) {
+export function NodeSystem({ onNodeSelect, language = "es" as Language }: { onNodeSelect: (nodeId: string) => void; language?: Language }) {
+  const t = translations[language];
   const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [selectedNode, setSelectedNode] = useState<string | null>("main");
   const [dataFlowActive, setDataFlowActive] = useState(false);
+
+  const nodes: NodeData[] = [
+    {
+      id: "main",
+      title: t.nodes.main.title,
+      icon: Cpu,
+      position: { x: 50, y: 50 },
+      color: "from-violet-500 to-purple-600",
+      description: t.nodes.main.description
+    },
+    {
+      id: "about",
+      title: t.nodes.about.title,
+      icon: User,
+      position: { x: 50, y: 15 },
+      color: "from-cyan-500 to-blue-600",
+      description: t.nodes.about.description
+    },
+    {
+      id: "skills",
+      title: t.nodes.skills.title,
+      icon: Code,
+      position: { x: 80, y: 30 },
+      color: "from-emerald-500 to-green-600",
+      description: t.nodes.skills.description
+    },
+    {
+      id: "projects",
+      title: t.nodes.projects.title,
+      icon: Briefcase,
+      position: { x: 85, y: 65 },
+      color: "from-pink-500 to-rose-600",
+      description: t.nodes.projects.description
+    },
+    {
+      id: "contact",
+      title: t.nodes.contact.title,
+      icon: Mail,
+      position: { x: 50, y: 85 },
+      color: "from-orange-500 to-amber-600",
+      description: t.nodes.contact.description
+    },
+    {
+      id: "cv",
+      title: t.nodes.cv.title,
+      icon: Database,
+      position: { x: 15, y: 65 },
+      color: "from-teal-500 to-cyan-600",
+      description: t.nodes.cv.description
+    },
+    {
+      id: "languages",
+      title: t.nodes.languages.title,
+      icon: Globe,
+      position: { x: 20, y: 30 },
+      color: "from-indigo-500 to-violet-600",
+      description: t.nodes.languages.description
+    }
+  ];
 
   const handleNodeClick = (nodeId: string) => {
     setSelectedNode(nodeId);
@@ -112,30 +114,6 @@ export function NodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string) =>
             whileTap={{ scale: 0.9 }}
             className="relative group cursor-pointer"
           >
-            {/* Orbital rings */}
-            <motion.div
-              className="absolute inset-0 -m-8"
-              animate={{ rotate: 360 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            >
-              {[0, 1, 2].map((ring) => (
-                <motion.div
-                  key={ring}
-                  className={`absolute inset-0 rounded-full border border-${node.color.split(' ')[0].replace('from-', '')} opacity-20`}
-                  style={{
-                    margin: `${ring * 10}px`,
-                    borderWidth: '1px'
-                  }}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{
-                    scale: hoveredNode === node.id ? 1 : 0,
-                    opacity: hoveredNode === node.id ? 0.3 : 0
-                  }}
-                  transition={{ delay: ring * 0.1 }}
-                />
-              ))}
-            </motion.div>
-
             {/* Outer glow ring */}
             <motion.div
               animate={{
@@ -210,12 +188,6 @@ export function NodeSystem({ onNodeSelect }: { onNodeSelect: (nodeId: string) =>
         </motion.div>
       ))}
 
-      {/* Center pulse */}
-      <motion.div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 rounded-full bg-violet-500/10 pointer-events-none"
-        animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0, 0.3] }}
-        transition={{ duration: 3, repeat: Infinity }}
-      />
     </div>
   );
 }

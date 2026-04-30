@@ -1,38 +1,39 @@
 import { motion } from "motion/react";
 import { ExternalLink, Github } from "lucide-react";
+import { Language } from "../utils/translations";
 
-const projects = [
-  {
-    id: 1,
-    title: "E-Commerce Platform",
-    description: "Plataforma completa de comercio electrónico con carrito, pagos y panel de administración",
-    tags: ["React", "Node.js", "MongoDB", "Stripe"],
-    gradient: "from-violet-600 to-purple-600"
-  },
-  {
-    id: 2,
-    title: "AI Chat Application",
-    description: "Aplicación de chat en tiempo real con integración de IA para respuestas automáticas",
-    tags: ["Next.js", "WebSocket", "OpenAI", "TailwindCSS"],
-    gradient: "from-cyan-600 to-blue-600"
-  },
-  {
-    id: 3,
-    title: "Dashboard Analytics",
-    description: "Dashboard interactivo con visualizaciones de datos en tiempo real y reportes",
-    tags: ["React", "D3.js", "Firebase", "Material-UI"],
-    gradient: "from-pink-600 to-rose-600"
-  },
-  {
-    id: 4,
-    title: "Mobile Fitness App",
-    description: "App móvil para seguimiento de ejercicios, nutrición y objetivos fitness",
-    tags: ["React Native", "Express", "PostgreSQL", "AWS"],
-    gradient: "from-emerald-600 to-green-600"
-  }
-];
+export function Projects({ language = "es" as Language }: { language?: Language }) {
+  const projects = [
+    {
+      id: 1,
+      title: language === 'es' ? 'Plataforma E-Commerce' : language === 'en' ? 'E-Commerce Platform' : 'E-Commerce-Plattform',
+      description: language === 'es' ? 'Plataforma completa de comercio electrónico con carrito, pagos y panel de administración' : language === 'en' ? 'Complete e-commerce platform with cart, payments and admin panel' : 'Vollständige E-Commerce-Plattform mit Warenkorb, Zahlungen und Admin-Panel',
+      tags: ["React", "Node.js", "MongoDB", "Stripe"],
+      gradient: "from-violet-600 to-purple-600"
+    },
+    {
+      id: 2,
+      title: language === 'es' ? 'Aplicación de Chat con IA' : language === 'en' ? 'AI Chat Application' : 'KI-Chat-Anwendung',
+      description: language === 'es' ? 'Aplicación de chat en tiempo real con integración de IA para respuestas automáticas' : language === 'en' ? 'Real-time chat application with AI integration for automatic responses' : 'Echtzeit-Chat-Anwendung mit KI-Integration für automatische Antworten',
+      tags: ["Next.js", "WebSocket", "OpenAI", "TailwindCSS"],
+      gradient: "from-cyan-600 to-blue-600"
+    },
+    {
+      id: 3,
+      title: language === 'es' ? 'Dashboard de Analíticas' : language === 'en' ? 'Analytics Dashboard' : 'Analyse-Dashboard',
+      description: language === 'es' ? 'Dashboard interactivo con visualizaciones de datos en tiempo real y reportes' : language === 'en' ? 'Interactive dashboard with real-time data visualizations and reports' : 'Interaktives Dashboard mit Echtzeit-Datenvisualisierungen und Berichten',
+      tags: ["React", "D3.js", "Firebase", "Material-UI"],
+      gradient: "from-pink-600 to-rose-600"
+    },
+    {
+      id: 4,
+      title: language === 'es' ? 'App Fitness Móvil' : language === 'en' ? 'Mobile Fitness App' : 'Mobile Fitness-App',
+      description: language === 'es' ? 'App móvil para seguimiento de ejercicios, nutrición y objetivos fitness' : language === 'en' ? 'Mobile app for tracking workouts, nutrition and fitness goals' : 'Mobile App zur Verfolgung von Workouts, Ernährung und Fitnesszielen',
+      tags: ["React Native", "Express", "PostgreSQL", "AWS"],
+      gradient: "from-emerald-600 to-green-600"
+    }
+  ];
 
-export function Projects() {
   return (
     <section id="projects" className="relative min-h-screen py-20 px-6 bg-gradient-to-br from-slate-950 via-violet-950/30 to-slate-950">
       <div className="max-w-7xl mx-auto">
@@ -44,10 +45,10 @@ export function Projects() {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent mb-4" style={{ fontWeight: 700 }}>
-            Mis Proyectos
+            {language === 'es' ? 'Mis Proyectos' : language === 'en' ? 'My Projects' : 'Meine Projekte'}
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Explora algunos de los proyectos en los que he trabajado
+            {language === 'es' ? 'Explora algunos de los proyectos en los que he trabajado' : language === 'en' ? 'Explore some of the projects I have worked on' : 'Entdecken Sie einige der Projekte, an denen ich gearbeitet habe'}
           </p>
         </motion.div>
 

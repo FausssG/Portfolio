@@ -1,7 +1,8 @@
 import { motion } from "motion/react";
 import { ChevronDown } from "lucide-react";
+import { Language } from "../utils/translations";
 
-export function Hero() {
+export function Hero({ language = "es" as Language }: { language?: Language }) {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Animated background grid */}
@@ -57,7 +58,7 @@ export function Hero() {
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
             className="inline-block px-6 py-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full text-cyan-300"
           >
-            👋 Bienvenido a mi universo digital
+            {language === 'es' ? '👋 Bienvenido a mi universo digital' : language === 'en' ? '👋 Welcome to my digital universe' : '👋 Willkommen in meinem digitalen Universum'}
           </motion.div>
 
           <motion.h1
@@ -77,7 +78,7 @@ export function Hero() {
             className="text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto"
             style={{ fontSize: 'clamp(1.125rem, 2vw, 1.5rem)' }}
           >
-            Desarrollador Full Stack | Creador de Experiencias Digitales | Innovador Tecnológico
+            {language === 'es' ? 'Desarrollador Full Stack | Creador de Experiencias Digitales | Innovador Tecnológico' : language === 'en' ? 'Full Stack Developer | Digital Experience Creator | Technology Innovator' : 'Full-Stack-Entwickler | Schöpfer digitaler Erlebnisse | Technologie-Innovator'}
           </motion.p>
 
           <motion.div
@@ -90,13 +91,13 @@ export function Hero() {
               onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
               className="px-8 py-4 bg-gradient-to-r from-violet-600 to-cyan-600 rounded-xl hover:shadow-lg hover:shadow-violet-500/50 transition-all duration-300 hover:scale-105"
             >
-              Ver Proyectos
+              {language === 'es' ? 'Ver Proyectos' : language === 'en' ? 'View Projects' : 'Projekte ansehen'}
             </button>
             <button
               onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
               className="px-8 py-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-xl hover:bg-white/20 transition-all duration-300"
             >
-              Contactar
+              {language === 'es' ? 'Contactar' : language === 'en' ? 'Contact' : 'Kontakt'}
             </button>
           </motion.div>
         </motion.div>

@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
-import { Mail, Github, Linkedin, Twitter, Send } from "lucide-react";
+import { Mail, Github, Linkedin, Send } from "lucide-react";
 import type { FormEvent, ChangeEvent } from "react";
+import { translations, Language } from "../utils/translations";
 
-export function Contact() {
+export function Contact({ language = "es" as Language }: { language?: Language }) {
+  const t = translations[language];
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -32,10 +34,9 @@ export function Contact() {
   };
 
   const socialLinks = [
-    { icon: Github, href: "#", label: "GitHub", color: "hover:text-violet-400" },
-    { icon: Linkedin, href: "#", label: "LinkedIn", color: "hover:text-cyan-400" },
-    { icon: Twitter, href: "#", label: "Twitter", color: "hover:text-blue-400" },
-    { icon: Mail, href: "#", label: "Email", color: "hover:text-pink-400" }
+    { icon: Github, href: "https://github.com/FausssG", label: "GitHub", color: "hover:text-violet-400" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/faustino-gnavi/", label: "LinkedIn", color: "hover:text-cyan-400" },
+    { icon: Mail, href: "mailto:faustinognavi@gmail.com", label: "Email", color: "hover:text-pink-400" }
   ];
 
   return (
@@ -52,10 +53,10 @@ export function Contact() {
           className="text-center mb-16"
         >
           <h2 className="text-5xl md:text-6xl bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent mb-4" style={{ fontWeight: 700 }}>
-            Hablemos
+            {language === 'es' ? 'Hablemos' : language === 'en' ? 'Let’s talk' : 'Lass uns reden'}
           </h2>
           <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            ¿Tienes un proyecto en mente? Estoy disponible para nuevas oportunidades
+            {language === 'es' ? '¿Tienes un proyecto en mente? Estoy disponible para nuevas oportunidades' : language === 'en' ? 'Have a project in mind? I am available for new opportunities' : 'Haben Sie ein Projekt im Kopf? Ich bin offen für neue Möglichkeiten'}
           </p>
         </motion.div>
 
@@ -71,7 +72,7 @@ export function Contact() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label htmlFor="name" className="block text-gray-300 mb-2">
-                  Nombre
+                  {language === 'es' ? 'Nombre' : language === 'en' ? 'Name' : 'Name'}
                 </label>
                 <input
                   type="text"
@@ -81,13 +82,13 @@ export function Contact() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-violet-500/50 transition-colors"
-                  placeholder="Tu nombre"
+                  placeholder={language === 'es' ? 'Tu nombre' : language === 'en' ? 'Your name' : 'Ihr Name'}
                 />
               </div>
 
               <div>
                 <label htmlFor="email" className="block text-gray-300 mb-2">
-                  Email
+                  {language === 'es' ? 'Email' : language === 'en' ? 'Email' : 'E-Mail'}
                 </label>
                 <input
                   type="email"
@@ -97,13 +98,13 @@ export function Contact() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-violet-500/50 transition-colors"
-                  placeholder="tu@email.com"
+                  placeholder={language === 'es' ? 'tu@email.com' : language === 'en' ? 'your@email.com' : 'ihre@email.com'}
                 />
               </div>
 
               <div>
                 <label htmlFor="message" className="block text-gray-300 mb-2">
-                  Mensaje
+                  {language === 'es' ? 'Mensaje' : language === 'en' ? 'Message' : 'Nachricht'}
                 </label>
                 <textarea
                   id="message"
@@ -113,7 +114,7 @@ export function Contact() {
                   required
                   rows={5}
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-violet-500/50 transition-colors resize-none"
-                  placeholder="Cuéntame sobre tu proyecto..."
+                  placeholder={language === 'es' ? 'Cuéntame sobre tu proyecto...' : language === 'en' ? 'Tell me about your project...' : 'Erzählen Sie mir von Ihrem Projekt...'}
                 />
               </div>
 
@@ -125,12 +126,12 @@ export function Contact() {
                 className="w-full px-6 py-4 bg-gradient-to-r from-violet-600 to-cyan-600 rounded-xl hover:shadow-lg hover:shadow-violet-500/50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {status === 'sending' ? (
-                  <span>Enviando...</span>
+                    <span>{language === 'es' ? 'Enviando...' : language === 'en' ? 'Sending...' : 'Wird gesendet...'}</span>
                 ) : status === 'sent' ? (
-                  <span>¡Enviado! ✓</span>
+                    <span>{language === 'es' ? '¡Enviado! ✓' : language === 'en' ? 'Sent! ✓' : 'Gesendet! ✓'}</span>
                 ) : (
                   <>
-                    <span>Enviar Mensaje</span>
+                      <span>{language === 'es' ? 'Enviar Mensaje' : language === 'en' ? 'Send Message' : 'Nachricht senden'}</span>
                     <Send className="w-4 h-4" />
                   </>
                 )}
@@ -148,18 +149,20 @@ export function Contact() {
           >
             <div className="mb-8">
               <h3 className="text-2xl text-white mb-4" style={{ fontWeight: 600 }}>
-                Conecta conmigo
+                {language === 'es' ? 'Conecta conmigo' : language === 'en' ? 'Connect with me' : 'Kontaktieren Sie mich'}
               </h3>
               <p className="text-gray-400">
-                Estoy activo en varias plataformas. No dudes en contactarme a través de cualquiera de ellas.
+                {language === 'es' ? 'Estoy activo en varias plataformas. No dudes en contactarme a través de cualquiera de ellas.' : language === 'en' ? 'I am active on several platforms. Feel free to reach out through any of them.' : 'Ich bin auf mehreren Plattformen aktiv. Kontaktieren Sie mich gern über eine davon.'}
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {socialLinks.map((social, index) => (
                 <motion.a
                   key={social.label}
                   href={social.href}
+                    target={social.href.startsWith('mailto:') ? undefined : '_blank'}
+                    rel={social.href.startsWith('mailto:') ? undefined : 'noreferrer'}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -181,7 +184,7 @@ export function Contact() {
               className="mt-8 p-6 bg-gradient-to-br from-violet-950/50 to-cyan-950/50 backdrop-blur-xl border border-violet-500/20 rounded-xl"
             >
               <p className="text-gray-300 text-center">
-                💡 <span className="text-violet-300">Respondo en menos de 24 horas</span>
+                💡 <span className="text-violet-300">{language === 'es' ? 'Respondo en menos de 24 horas' : language === 'en' ? 'I reply within 24 hours' : 'Ich antworte innerhalb von 24 Stunden'}</span>
               </p>
             </motion.div>
           </motion.div>

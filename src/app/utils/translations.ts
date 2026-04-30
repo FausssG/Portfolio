@@ -28,6 +28,18 @@ export const translations = {
       "🎮 Existe un Easter Egg secreto... ¿Puedes encontrarlo?",
       "💡 Pista: Todo es clickeable, explora el HUD"
     ],
+    nodeSystem: {
+      progress: "PROGRESO",
+      nodes: "Nodos",
+      locked: "Bloqueado",
+      unlockToastTitle: "Nodo desbloqueado",
+      tutorial: "👆 Click en SISTEMA CENTRAL para comenzar tu viaje",
+      dragHint: "🖐️ Arrastra para explorar",
+      secretUnlocked: "🎮 HACK DESBLOQUEADO!",
+      xpBonus: "BONUS XP",
+      secretHint: "✨ Easter Egg!",
+      secretLabel: "Nodo secreto descubierto!"
+    },
 
     // Nodes
     nodes: {
@@ -37,7 +49,8 @@ export const translations = {
       projects: { title: "PROYECTOS", description: "Portfolio de trabajos" },
       contact: { title: "CONTACTO", description: "Red de comunicación" },
       languages: { title: "IDIOMAS", description: "Certificaciones" },
-      cv: { title: "CURRICULUM", description: "Descargar CV" }
+      cv: { title: "CURRICULUM", description: "Descargar CV" },
+      secret: { title: "???", description: "Nodo secreto descubierto!" }
     },
 
     // Main Content
@@ -196,6 +209,33 @@ export const translations = {
       phone: "+54 341 3996285",
       location: "Rosario, Santa Fe, Argentina",
       linkedin: "linkedin.com/in/faustino-gnavi"
+    },
+
+    // Node content
+    nodeContent: {
+      downloadFilesHint: "Los archivos se descargarán automáticamente",
+      contactDirect: "CONTACTO DIRECTO:",
+      sending: "Enviando...",
+      sentSuccess: "¡Mensaje enviado exitosamente! 🎉",
+      sendError: "Error al enviar el mensaje. Intenta de nuevo.",
+      unlockSystem: "Sistema desbloqueado",
+      secretThanks: "Gracias por explorar mi portfolio de manera tan completa",
+      achievement: "Logro",
+      bonusUnlocked: "Bono desbloqueado",
+      systemActive: "SISTEMA ACTIVO"
+    },
+
+    terminalLoader: {
+      sequence: [
+        "INICIALIZANDO SISTEMA...",
+        "CARGANDO MÓDULOS PRINCIPALES...",
+        "ESTABLECIENDO CONEXIÓN NEURAL...",
+        "SINCRONIZANDO BASE DE DATOS...",
+        "ACTIVANDO INTERFAZ GRÁFICA...",
+        "SISTEMA LISTO. BIENVENIDO."
+      ],
+      progress: "PROGRESO",
+      footer: "CONSTRUYENDO EXPERIENCIA INTERACTIVA..."
     }
   },
 
@@ -228,6 +268,18 @@ export const translations = {
       "🎮 There's a secret Easter Egg... Can you find it?",
       "💡 Hint: Everything is clickable, explore the HUD"
     ],
+    nodeSystem: {
+      progress: "PROGRESS",
+      nodes: "Nodes",
+      locked: "Locked",
+      unlockToastTitle: "Node unlocked",
+      tutorial: "👆 Click CENTRAL SYSTEM to begin your journey",
+      dragHint: "🖐️ Drag to explore",
+      secretUnlocked: "🎮 HACK UNLOCKED!",
+      xpBonus: "XP BONUS",
+      secretHint: "✨ Easter Egg!",
+      secretLabel: "Secret node discovered!"
+    },
 
     // Nodes
     nodes: {
@@ -237,7 +289,8 @@ export const translations = {
       projects: { title: "PROJECTS", description: "Work portfolio" },
       contact: { title: "CONTACT", description: "Communication network" },
       languages: { title: "LANGUAGES", description: "Certifications" },
-      cv: { title: "RESUME", description: "Download CV" }
+      cv: { title: "RESUME", description: "Download CV" },
+      secret: { title: "???", description: "Secret node discovered!" }
     },
 
     // Main Content
@@ -396,6 +449,33 @@ export const translations = {
       phone: "+54 341 3996285",
       location: "Rosario, Santa Fe, Argentina",
       linkedin: "linkedin.com/in/faustino-gnavi"
+    },
+
+    // Node content
+    nodeContent: {
+      downloadFilesHint: "Files will download automatically",
+      contactDirect: "DIRECT CONTACT:",
+      sending: "Sending...",
+      sentSuccess: "Message sent successfully! 🎉",
+      sendError: "Error sending message. Please try again.",
+      unlockSystem: "System unlocked",
+      secretThanks: "Thank you for exploring my portfolio so thoroughly",
+      achievement: "Achievement",
+      bonusUnlocked: "Bonus unlocked",
+      systemActive: "SYSTEM ACTIVE"
+    },
+
+    terminalLoader: {
+      sequence: [
+        "INITIALIZING SYSTEM...",
+        "LOADING MAIN MODULES...",
+        "ESTABLISHING NEURAL CONNECTION...",
+        "SYNCHRONIZING DATABASE...",
+        "ACTIVATING GRAPHICAL INTERFACE...",
+        "SYSTEM READY. WELCOME."
+      ],
+      progress: "PROGRESS",
+      footer: "BUILDING INTERACTIVE EXPERIENCE..."
     }
   },
 
@@ -428,6 +508,18 @@ export const translations = {
       "🎮 Es gibt ein geheimes Easter Egg... Kannst du es finden?",
       "💡 Tipp: Alles ist anklickbar, erkunde das HUD"
     ],
+    nodeSystem: {
+      progress: "FORTSCHRITT",
+      nodes: "Knoten",
+      locked: "Gesperrt",
+      unlockToastTitle: "Knoten freigeschaltet",
+      tutorial: "👆 Klicken Sie auf ZENTRALSYSTEM, um Ihre Reise zu beginnen",
+      dragHint: "🖐️ Ziehen, um zu erkunden",
+      secretUnlocked: "🎮 HACK FREIGESCHALTET!",
+      xpBonus: "XP-BONUS",
+      secretHint: "✨ Easter Egg!",
+      secretLabel: "Geheimer Knoten entdeckt!"
+    },
 
     // Nodes
     nodes: {
@@ -437,7 +529,8 @@ export const translations = {
       projects: { title: "PROJEKTE", description: "Arbeitsportfolio" },
       contact: { title: "KONTAKT", description: "Kommunikationsnetzwerk" },
       languages: { title: "SPRACHEN", description: "Zertifizierungen" },
-      cv: { title: "LEBENSLAUF", description: "CV herunterladen" }
+      cv: { title: "LEBENSLAUF", description: "CV herunterladen" },
+      secret: { title: "???", description: "Geheimer Knoten entdeckt!" }
     },
 
     // Main Content
@@ -596,6 +689,33 @@ export const translations = {
       phone: "+54 341 3996285",
       location: "Rosario, Santa Fe, Argentinien",
       linkedin: "linkedin.com/in/faustino-gnavi"
+    },
+
+    // Node content
+    nodeContent: {
+      downloadFilesHint: "Dateien werden automatisch heruntergeladen",
+      contactDirect: "DIREKTER KONTAKT:",
+      sending: "Wird gesendet...",
+      sentSuccess: "Nachricht erfolgreich gesendet! 🎉",
+      sendError: "Fehler beim Senden der Nachricht. Bitte erneut versuchen.",
+      unlockSystem: "System freigeschaltet",
+      secretThanks: "Danke, dass Sie mein Portfolio so gründlich erkundet haben",
+      achievement: "Erfolg",
+      bonusUnlocked: "Bonus freigeschaltet",
+      systemActive: "SYSTEM AKTIV"
+    },
+
+    terminalLoader: {
+      sequence: [
+        "SYSTEM WIRD INITIALISIERT...",
+        "HAUPTMODULE WERDEN GELADEN...",
+        "NEURALE VERBINDUNG WIRD HERGESTELLT...",
+        "DATENBANK WIRD SYNCHRONISIERT...",
+        "GRAFISCHE OBERFLÄCHE WIRD AKTIVIERT...",
+        "SYSTEM BEREIT. WILLKOMMEN."
+      ],
+      progress: "FORTSCHRITT",
+      footer: "INTERAKTIVE ERFAHRUNG WIRD AUFGEBAUT..."
     }
   }
 };
