@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { Analytics } from "@vercel/analytics/react";
 import { ParticleNetwork } from "./components/ParticleNetwork";
 import { GameNodeSystem } from "./components/GameNodeSystem";
 import { TerminalLoader } from "./components/TerminalLoader";
@@ -92,6 +93,7 @@ export default function App() {
           <HelpPanel language={language as any} />
         </>
       )}
+      <Analytics />
     </div>
   );
 }
