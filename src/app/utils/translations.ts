@@ -142,7 +142,7 @@ export const translations = {
         tech: "Infraestructura IT",
         status: "COMPLETADO",
         description: "Diseño y construcción de Data Center para empresa proveedora de seguros con optimización de infraestructura física",
-        image: "/assets/projects/datacenter.png",
+        image: "/assets/projects/cableado.png",
         technologies: ["Cableado Estructurado", "Redes", "Infraestructura"],
         date: "Mar - Nov 2024"
       },
@@ -160,7 +160,7 @@ export const translations = {
         tech: "C# + .NET + SQL",
         status: "COMPLETADO",
         description: "Sistema CRUD completo con diseño orientado a objetos y manejo de base de datos relacional",
-        image: "/assets/projects/veterinaria.png",
+        image: "/assets/projects/pawpalace.png",
         technologies: ["C#", ".NET Framework", "SQL", "OOP"],
         date: "Mar - Nov 2023"
       }
