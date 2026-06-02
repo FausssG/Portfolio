@@ -304,7 +304,7 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
           </div>
 
           <motion.a
-            href="/projects/CV_GNAVI_FAUSTINO_ES.pdf"
+            href="/assets/projects/CV_GNAVI_FAUSTINO_ES.pdf"
             download="CV_GNAVI_FAUSTINO_ES.pdf"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -323,7 +323,7 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
           </motion.a>
 
           <motion.a
-            href='/projects/CV_GNAVI_FAUSTINO_EN.pdf'
+            href='/assets/projects/CV_GNAVI_FAUSTINO_EN.pdf'
             download="CV_GNAVI_FAUSTINO_EN.pdf"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -342,7 +342,7 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
           </motion.a>
 
           <motion.a
-            href="/projects/CV_GNAVI_FAUSTINO_DE.pdf"
+            href="/assets/projects/CV_GNAVI_FAUSTINO_DE.pdf"
             download="CV_GNAVI_FAUSTINO_DE.pdf"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
