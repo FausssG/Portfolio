@@ -299,13 +299,13 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
               <Download className="w-12 h-12 text-cyan-400" />
             </motion.div>
             <p className="text-gray-400 text-sm font-mono">
-              {t.lastUpdated}: 30/04/2026
+              {t.lastUpdated}: 02/06/2026
             </p>
           </div>
 
           <motion.a
-            href="/src/imports/CV_FAUSTINO_GNAVI.pdf"
-            download="CV_Faustino_Gnavi_ES.pdf"
+            href="/projects/CV_GNAVI_FAUSTINO_ES.pdf"
+            download="CV_GNAVI_FAUSTINO_ES.pdf"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="block p-4 bg-gradient-to-r from-violet-950/50 to-purple-950/50 border border-violet-500/30 rounded-xl hover:border-violet-500/60 transition-all group"
@@ -323,8 +323,8 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
           </motion.a>
 
           <motion.a
-            href="/src/imports/CV_Faustino_Gnavi_EN.pdf"
-            download="CV_Faustino_Gnavi_EN.pdf"
+            href='/projects/CV_GNAVI_FAUSTINO_EN.pdf'
+            download="CV_GNAVI_FAUSTINO_EN.pdf"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="block p-4 bg-gradient-to-r from-cyan-950/50 to-blue-950/50 border border-cyan-500/30 rounded-xl hover:border-cyan-500/60 transition-all group"
@@ -342,8 +342,8 @@ export function NodeContent({ nodeId, onClose, language }: NodeContentProps) {
           </motion.a>
 
           <motion.a
-            href="/src/imports/CV_Faustino_Gnavi_DE.pdf"
-            download="CV_Faustino_Gnavi_DE.pdf"
+            href="/projects/CV_GNAVI_FAUSTINO_DE.pdf"
+            download="CV_GNAVI_FAUSTINO_DE.pdf"
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="block p-4 bg-gradient-to-r from-indigo-950/50 to-violet-950/50 border border-indigo-500/30 rounded-xl hover:border-indigo-500/60 transition-all group"
