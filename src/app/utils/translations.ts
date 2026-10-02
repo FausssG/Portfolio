@@ -46,6 +46,7 @@ export const translations = {
       main: { title: "SISTEMA CENTRAL", description: "Núcleo del sistema" },
       about: { title: "PERFIL", description: "Información personal" },
       skills: { title: "HABILIDADES", description: "Stack tecnológico" },
+      experience: { title: "PASANTÍA", description: "Pasantía en Anser Telefonía" },
       projects: { title: "PROYECTOS", description: "Portfolio de trabajos" },
       contact: { title: "CONTACTO", description: "Red de comunicación" },
       languages: { title: "IDIOMAS", description: "Certificaciones" },
@@ -55,13 +56,13 @@ export const translations = {
 
     // Main Content
     name: "Faustino Gnavi",
-    role: "Ingeniero en Sistemas | Analista Desarrollador",
+    role: "Ingeniero en Sistemas de Información | Analista en Sistemas",
     welcomeMessage: "Bienvenido al sistema",
     mainDescription: "Explora mis proyectos, habilidades y experiencia a través de esta interfaz interactiva. Cada nodo representa una sección diferente de mi portfolio profesional.",
     quickAccess: "ACCESO RÁPIDO",
     stats: {
       projects: { label: "PROYECTOS", value: "7+" },
-      experience: { label: "AÑOS ESTUDIO", value: "4+" },
+      experience: { label: "FORMACIÓN", value: "Graduado" },
       technologies: { label: "TECNOLOGÍAS", value: "20+" },
       gpa: { label: "PROMEDIO", value: "7.5/10" }
     },
@@ -69,7 +70,7 @@ export const translations = {
     // About
     aboutTitle: "PERFIL DE USUARIO",
     identification: "IDENTIFICACIÓN",
-    identificationText: "Estudiante avanzado de Ingeniería en Sistemas de la Información (UTN Rosario, promedio 7.5/10) con perfil full-stack orientado al desarrollo de software y análisis de datos. Experiencia práctica en Python, C#, JavaScript/TypeScript, Angular y NestJS, con sólidos conocimientos en SQL, control de versiones con Git y metodologías ágiles/Scrum.",
+    identificationText: "Graduado en Ingeniería en Sistemas de Información y Analista Universitario en Sistemas (UTN Rosario, promedio 7.5/10) con perfil full-stack orientado al desarrollo de software y análisis de datos. Experiencia práctica en Python, C#, JavaScript/TypeScript, Angular y NestJS, con sólidos conocimientos en SQL, control de versiones con Git y metodologías ágiles/Scrum.",
     mission: "MISIÓN",
     missionText: "Transformar ideas complejas en soluciones tecnológicas innovadoras que impulsen el crecimiento y mejoren la eficiencia de los sistemas. Apasionado por el aprendizaje continuo y la aplicación de mejores prácticas en desarrollo de software.",
     interpersonalSkillsTitle: "HABILIDADES INTERPERSONALES",
@@ -89,17 +90,57 @@ export const translations = {
       { key: "methods", title: "Metodologías", skills: ["Scrum", "Metodologías Ágiles", "Gestión de Proyectos", "Gestión de Calidad"] }
     ],
 
+    // Experience / Internship
+    experienceTitle: "PASANTÍA PROFESIONAL",
+    experienceData: {
+      company: "Anser Telefonía Importación | ATview",
+      role: "Pasantía Profesional de IT & Desarrollo de Software",
+      period: "Pasantía Universitaria",
+      status: "COMPLETADO",
+      logo: "/assets/projects/anser-telefonia.png",
+      objectiveTitle: "Descripción del objetivo del proyecto a realizar",
+      objectiveText: "El objetivo del proyecto es optimizar y asegurar el correcto funcionamiento del entorno tecnológico de la organización, mediante tareas de mantenimiento de infraestructura IT, soporte técnico y capacitación a usuarios. Asimismo, se busca restablecer la operatividad del sistema de facturación electrónica existente a través de la revalidación de certificados digitales y la correcta integración con los Web Services de AFIP. En paralelo, se realizará la mejora del modelo relacional en SQL Server para optimizar la gestión de datos, y el desarrollo de una aplicación escritorio en .NET anexa que permita la gestión de impresión y la generación de códigos QR para comprobantes tipo A y B, integrándose con el sistema actual.",
+      technologies: [".NET", "C#", "SQL Server", "Web Services AFIP", "Infraestructura IT", "Facturación Electrónica", "Generación QR"],
+      areas: [
+        {
+          title: "Infraestructura IT & Soporte",
+          description: "Mantenimiento preventivo y correctivo del parque informático, soporte técnico continuo y capacitación a usuarios en buenas prácticas operativas."
+        },
+        {
+          title: "Facturación Electrónica & Web Services AFIP",
+          description: "Restablecimiento de la operatividad del sistema fiscal mediante revalidación de certificados digitales y conexión con Web Services de AFIP (WSFE)."
+        },
+        {
+          title: "Optimización de Base de Datos SQL Server",
+          description: "Revisión y optimización del modelo relacional en SQL Server para potenciar la consistencia, rendimiento y seguridad de la información."
+        },
+        {
+          title: "Aplicación de Escritorio en .NET & Códigos QR",
+          description: "Desarrollo de aplicación auxiliar en .NET encargada de la gestión de impresión y generación de códigos QR para comprobantes tipo A y B integrada al sistema actual."
+        }
+      ]
+    },
+
     // Projects
     projectsTitle: "ARCHIVO DE PROYECTOS",
     projectsList: [
       {
+        name: "Pasantía IT & Desarrollo - Anser Telefonía",
+        tech: ".NET + SQL Server + Web Services",
+        status: "COMPLETADO",
+        description: "Mantenimiento de infraestructura IT, revalidación de certificados AFIP para facturación electrónica, optimización en SQL Server y desarrollo de app escritorio .NET para gestión de impresión con códigos QR.",
+        image: "/assets/projects/anser-telefonia.png",
+        technologies: [".NET", "C#", "SQL Server", "Web Services", "AFIP", "Infraestructura IT"],
+        date: "Pasantía Profesional"
+      },
+      {
         name: "Proyecto Final de Carrera",
         tech: "Flutter + Dart + NextJS + PostgreSQL",
-        status: "EN DESARROLLO",
+        status: "FINALIZADO",
         description: "Proyecto integrador final de la carrera de Ingeniería en Sistemas",
         image: "/assets/projects/proyecto-final.png",
         technologies: ["Flutter", "Dart", "NextJS", "PostgreSQL", "TypeScript"],
-        date: "2025 - Presente"
+        date: "Agosto 2026"
       },
       {
         name: "Sistema de Gestión WPC",
@@ -190,12 +231,16 @@ export const translations = {
     ],
 
     // CV
-    cvTitle: "DESCARGAR CURRICULUM",
-    downloadCV: "DESCARGAR CV",
+    cvTitle: "CURRICULUM VITAE",
+    previewCV: "VISTA PREVIA",
+    openInNewTab: "Abrir en nueva pestaña",
+    downloadCV: "Descargar PDF",
+    backToList: "Volver a lista",
     cvSpanish: "CV en Español",
     cvEnglish: "CV en Inglés",
     cvGerman: "CV en Alemán",
     lastUpdated: "Última actualización",
+    viewOnlineHint: "Selecciona una versión para previsualizarla en pantalla o abrirla en una pestaña nueva.",
 
     // Contact
     contactTitle: "CANAL DE COMUNICACIÓN",
@@ -214,7 +259,7 @@ export const translations = {
     contactInfo: {
       email: "faustinognavi@gmail.com",
       phone: "+54 341 3996285",
-      location: "Rosario, Santa Fe, Argentina",
+      location: "Munich, Alemania",
       linkedin: "linkedin.com/in/faustino-gnavi"
     },
 
@@ -293,6 +338,7 @@ export const translations = {
       main: { title: "CENTRAL SYSTEM", description: "System core" },
       about: { title: "PROFILE", description: "Personal information" },
       skills: { title: "SKILLS", description: "Tech stack" },
+      experience: { title: "INTERNSHIP", description: "Internship at Anser Telefonía" },
       projects: { title: "PROJECTS", description: "Work portfolio" },
       contact: { title: "CONTACT", description: "Communication network" },
       languages: { title: "LANGUAGES", description: "Certifications" },
@@ -302,13 +348,13 @@ export const translations = {
 
     // Main Content
     name: "Faustino Gnavi",
-    role: "Systems Engineer | Developer Analyst",
+    role: "Information Systems Engineer | Systems Analyst",
     welcomeMessage: "Welcome to the system",
     mainDescription: "Explore my projects, skills and experience through this interactive interface. Each node represents a different section of my professional portfolio.",
     quickAccess: "QUICK ACCESS",
     stats: {
       projects: { label: "PROJECTS", value: "7+" },
-      experience: { label: "STUDY YEARS", value: "4+" },
+      experience: { label: "DEGREE", value: "Graduated" },
       technologies: { label: "TECHNOLOGIES", value: "20+" },
       gpa: { label: "GPA", value: "7.5/10" }
     },
@@ -316,7 +362,7 @@ export const translations = {
     // About
     aboutTitle: "USER PROFILE",
     identification: "IDENTIFICATION",
-    identificationText: "Advanced student of Information Systems Engineering (UTN Rosario, GPA 7.5/10) with a full-stack profile focused on software development and data analysis. Hands-on experience in Python, C#, JavaScript/TypeScript, Angular and NestJS, with solid knowledge in SQL, version control with Git and Agile/Scrum methodologies.",
+    identificationText: "Graduate in Information Systems Engineering and University Systems Analyst (UTN Rosario, GPA 7.5/10) with a full-stack profile focused on software development and data analysis. Hands-on experience in Python, C#, JavaScript/TypeScript, Angular and NestJS, with solid knowledge in SQL, version control with Git and Agile/Scrum methodologies.",
     mission: "MISSION",
     missionText: "Transform complex ideas into innovative technological solutions that drive growth and improve system efficiency. Passionate about continuous learning and applying software development best practices.",
     interpersonalSkillsTitle: "INTERPERSONAL SKILLS",
@@ -336,17 +382,57 @@ export const translations = {
       { key: "methods", title: "Methodologies", skills: ["Scrum", "Agile Methodologies", "Project Management", "Quality Management"] }
     ],
 
+    // Experience / Internship
+    experienceTitle: "PROFESSIONAL INTERNSHIP",
+    experienceData: {
+      company: "Anser Telefonía Importación | ATview",
+      role: "IT & Software Development Professional Internship",
+      period: "University Internship",
+      status: "COMPLETED",
+      logo: "/assets/projects/anser-telefonia.png",
+      objectiveTitle: "Project Objective Description",
+      objectiveText: "The objective of the project is to optimize and ensure the proper functioning of the organization's technological environment through IT infrastructure maintenance, technical support, and user training. Additionally, it aims to restore the operability of the existing electronic invoicing system by revalidating digital certificates and ensuring proper integration with AFIP Web Services. Concurrently, improvements to the relational data model in SQL Server were implemented to optimize data management, alongside the development of an attached .NET desktop application for print management and QR code generation for Type A and B fiscal invoices, seamlessly integrating with the existing system.",
+      technologies: [".NET", "C#", "SQL Server", "AFIP Web Services", "IT Infrastructure", "Electronic Invoicing", "QR Code Generation"],
+      areas: [
+        {
+          title: "IT Infrastructure & Technical Support",
+          description: "Preventative and corrective maintenance of the IT ecosystem, workstation support, and user training on operational best practices."
+        },
+        {
+          title: "AFIP Electronic Invoicing & Web Services",
+          description: "Restoration of electronic invoicing operations through digital certificate revalidation and direct integration with AFIP Web Services (WSFE)."
+        },
+        {
+          title: "SQL Server Relational Model Optimization",
+          description: "Refinement and indexing of the relational database model in SQL Server to optimize data integrity, query speed, and management."
+        },
+        {
+          title: ".NET Desktop App & QR Generation",
+          description: "Development of an auxiliary .NET desktop application handling print management and dynamic QR code generation for Type A and B invoices, integrated with the existing system."
+        }
+      ]
+    },
+
     // Projects
     projectsTitle: "PROJECTS ARCHIVE",
     projectsList: [
       {
+        name: "IT & Software Internship - Anser Telefonía",
+        tech: ".NET + SQL Server + Web Services",
+        status: "COMPLETED",
+        description: "IT infrastructure maintenance, AFIP digital certificates revalidation for electronic invoicing, SQL Server relational optimization, and .NET desktop app with QR codes.",
+        image: "/assets/projects/anser-telefonia.png",
+        technologies: [".NET", "C#", "SQL Server", "Web Services", "AFIP", "IT Infrastructure"],
+        date: "Professional Internship"
+      },
+      {
         name: "Final Degree Project",
         tech: "Flutter + Dart + NextJS + PostgreSQL",
-        status: "IN DEVELOPMENT",
+        status: "COMPLETED",
         description: "Final integrative project for Systems Engineering degree",
         image: "/assets/projects/proyecto-final.png",
         technologies: ["Flutter", "Dart", "NextJS", "PostgreSQL", "TypeScript"],
-        date: "2025 - Present"
+        date: "August 2026"
       },
       {
         name: "WPC Management System",
@@ -389,7 +475,7 @@ export const translations = {
         tech: "IT Infrastructure",
         status: "COMPLETED",
         description: "Design and construction of Data Center for insurance company with physical infrastructure optimization",
-        image: "/assets/projects/datacenter.png",
+        image: "/assets/projects/cableado.png",
         technologies: ["Structured Cabling", "Networks", "Infrastructure"],
         date: "Mar - Nov 2024"
       },
@@ -407,7 +493,7 @@ export const translations = {
         tech: "C# + .NET + SQL",
         status: "COMPLETED",
         description: "Complete CRUD system with object-oriented design and relational database management",
-        image: "/assets/projects/veterinaria.png",
+        image: "/assets/projects/pawpalace.png",
         technologies: ["C#", ".NET Framework", "SQL", "OOP"],
         date: "Mar - Nov 2023"
       }
@@ -437,12 +523,16 @@ export const translations = {
     ],
 
     // CV
-    cvTitle: "DOWNLOAD RESUME",
-    downloadCV: "DOWNLOAD CV",
+    cvTitle: "CURRICULUM VITAE",
+    previewCV: "PREVIEW",
+    openInNewTab: "Open in new tab",
+    downloadCV: "Download PDF",
+    backToList: "Back to list",
     cvSpanish: "CV in Spanish",
     cvEnglish: "CV in English",
     cvGerman: "CV in German",
     lastUpdated: "Last updated",
+    viewOnlineHint: "Select a version to preview on screen or open in a new tab.",
 
     // Contact
     contactTitle: "COMMUNICATION CHANNEL",
@@ -461,7 +551,7 @@ export const translations = {
     contactInfo: {
       email: "faustinognavi@gmail.com",
       phone: "+54 341 3996285",
-      location: "Rosario, Santa Fe, Argentina",
+      location: "Munich, Germany",
       linkedin: "linkedin.com/in/faustino-gnavi"
     },
 
@@ -540,6 +630,7 @@ export const translations = {
       main: { title: "ZENTRALSYSTEM", description: "Systemkern" },
       about: { title: "PROFIL", description: "Persönliche Informationen" },
       skills: { title: "FÄHIGKEITEN", description: "Tech-Stack" },
+      experience: { title: "PRAKTIKUM", description: "Praktikum bei Anser Telefonía" },
       projects: { title: "PROJEKTE", description: "Arbeitsportfolio" },
       contact: { title: "KONTAKT", description: "Kommunikationsnetzwerk" },
       languages: { title: "SPRACHEN", description: "Zertifizierungen" },
@@ -549,13 +640,13 @@ export const translations = {
 
     // Main Content
     name: "Faustino Gnavi",
-    role: "Systemingenieur | Entwickler-Analyst",
+    role: "Ingenieur für Informationssysteme | Systemanalytiker",
     welcomeMessage: "Willkommen im System",
     mainDescription: "Erkunden Sie meine Projekte, Fähigkeiten und Erfahrungen durch diese interaktive Oberfläche. Jeder Knoten repräsentiert einen anderen Bereich meines professionellen Portfolios.",
     quickAccess: "SCHNELLZUGRIFF",
     stats: {
       projects: { label: "PROJEKTE", value: "7+" },
-      experience: { label: "STUDIENJAHRE", value: "4+" },
+      experience: { label: "ABSCHLUSS", value: "Absolvent" },
       technologies: { label: "TECHNOLOGIEN", value: "20+" },
       gpa: { label: "DURCHSCHNITT", value: "7.5/10" }
     },
@@ -563,7 +654,7 @@ export const translations = {
     // About
     aboutTitle: "BENUTZERPROFIL",
     identification: "IDENTIFIKATION",
-    identificationText: "Fortgeschrittener Student der Informationssystemtechnik (UTN Rosario, Durchschnitt 7.5/10) mit Full-Stack-Profil, das sich auf Softwareentwicklung und Datenanalyse konzentriert. Praktische Erfahrung in Python, C#, JavaScript/TypeScript, Angular und NestJS, mit soliden Kenntnissen in SQL, Versionskontrolle mit Git und Agile/Scrum-Methoden.",
+    identificationText: "Absolvent des Studiengangs Informationssystemtechnik und Universitätssystemanalytiker (UTN Rosario, Durchschnitt 7.5/10) mit Full-Stack-Profil, das sich auf Softwareentwicklung und Datenanalyse konzentriert. Praktische Erfahrung in Python, C#, JavaScript/TypeScript, Angular und NestJS, mit soliden Kenntnissen in SQL, Versionskontrolle mit Git und Agile/Scrum-Methoden.",
     mission: "MISSION",
     missionText: "Komplexe Ideen in innovative technologische Lösungen umwandeln, die das Wachstum fördern und die Systemeffizienz verbessern. Leidenschaftlich für kontinuierliches Lernen und die Anwendung bewährter Praktiken in der Softwareentwicklung.",
     interpersonalSkillsTitle: "ZWISCHENMENSCHLICHE FÄHIGKEITEN",
@@ -583,17 +674,57 @@ export const translations = {
       { key: "methods", title: "Methoden", skills: ["Scrum", "Agile Methoden", "Projektmanagement", "Qualitätsmanagement"] }
     ],
 
+    // Experience / Internship
+    experienceTitle: "BERUFSPRAKTIKUM",
+    experienceData: {
+      company: "Anser Telefonía Importación | ATview",
+      role: "Fachpraktikum IT & Softwareentwicklung",
+      period: "Universitäts-Praktikum",
+      status: "ABGESCHLOSSEN",
+      logo: "/assets/projects/anser-telefonia.png",
+      objectiveTitle: "Projektzielbeschreibung",
+      objectiveText: "Ziel des Projekts ist die Optimierung und Sicherstellung des ordnungsgemäßen Betriebs der IT-Umgebung des Unternehmens durch IT-Infrastrukturwartung, technischen Support und Anwenderschulungen. Darüber hinaus wird die Wiederherstellung der Funktionalität des bestehenden elektronischen Abrechnungssystems durch die Neuzertifizierung digitaler Zertifikate und die nahtlose Integration mit den AFIP-Webservices gewährleistet. Parallel dazu wurden die Optimierung des relationalen Datenmodells in SQL Server zur verbesserten Datenverwaltung sowie die Entwicklung einer ergänzenden .NET-Desktop-Anwendung zur Druckverwaltung und QR-Code-Generierung für Rechnungen der Typen A und B durchgeführt, integriert in das bestehende System.",
+      technologies: [".NET", "C#", "SQL Server", "AFIP Webservices", "IT-Infrastruktur", "Elektronische Abrechnung", "QR-Code Generierung"],
+      areas: [
+        {
+          title: "IT-Infrastruktur & Technischer Support",
+          description: "Wartung der technologischen Umgebung, technischer Support und Anwenderschulung zur Optimierung des Betriebsablaufs."
+        },
+        {
+          title: "Elektronische Rechnungsstellung & AFIP-Webservices",
+          description: "Wiederherstellung der Betriebsfähigkeit durch Revalidierung digitaler Zertifikate und direkte Anbindung an AFIP-Webservices (WSFE)."
+        },
+        {
+          title: "Optimierung des relationalen Modells in SQL Server",
+          description: "Optimierung der relationalen Datenbankstruktur für eine effiziente, sichere und performante Datenverwaltung."
+        },
+        {
+          title: ".NET-Desktop-Anwendung & QR-Code-Erstellung",
+          description: "Entwicklung einer ergänzenden .NET-Desktopanwendung für Druckmanagement und automatische QR-Code-Erstellung für Rechnungsbelege der Typen A und B."
+        }
+      ]
+    },
+
     // Projects
     projectsTitle: "PROJEKTARCHIV",
     projectsList: [
       {
+        name: "IT- & Entwicklungs-Praktikum - Anser Telefonía",
+        tech: ".NET + SQL Server + Webservices",
+        status: "ABGESCHLOSSEN",
+        description: "IT-Infrastrukturwartung, Revalidierung von AFIP-Zertifikaten für die elektronische Rechnungsstellung, SQL Server-Optimierung und .NET-Desktop-App mit QR-Codes.",
+        image: "/assets/projects/anser-telefonia.png",
+        technologies: [".NET", "C#", "SQL Server", "Webservices", "AFIP", "IT-Infrastruktur"],
+        date: "Fachpraktikum"
+      },
+      {
         name: "Abschlussprojekt",
         tech: "Flutter + Dart + NextJS + PostgreSQL",
-        status: "IN ENTWICKLUNG",
+        status: "ABGESCHLOSSEN",
         description: "Abschließendes integratives Projekt für den Systemingenieur-Abschluss",
         image: "/assets/projects/proyecto-final.png",
         technologies: ["Flutter", "Dart", "NextJS", "PostgreSQL", "TypeScript"],
-        date: "2025 - Heute"
+        date: "August 2026"
       },
       {
         name: "WPC-Verwaltungssystem",
@@ -636,7 +767,7 @@ export const translations = {
         tech: "IT-Infrastruktur",
         status: "ABGESCHLOSSEN",
         description: "Design und Bau eines Rechenzentrums für Versicherungsunternehmen mit Optimierung der physischen Infrastruktur",
-        image: "/assets/projects/datacenter.png",
+        image: "/assets/projects/cableado.png",
         technologies: ["Strukturierte Verkabelung", "Netzwerke", "Infrastruktur"],
         date: "Mär - Nov 2024"
       },
@@ -654,7 +785,7 @@ export const translations = {
         tech: "C# + .NET + SQL",
         status: "ABGESCHLOSSEN",
         description: "Vollständiges CRUD-System mit objektorientiertem Design und relationaler Datenbankverwaltung",
-        image: "/assets/projects/veterinaria.png",
+        image: "/assets/projects/pawpalace.png",
         technologies: ["C#", ".NET Framework", "SQL", "OOP"],
         date: "Mär - Nov 2023"
       }
@@ -684,12 +815,16 @@ export const translations = {
     ],
 
     // CV
-    cvTitle: "LEBENSLAUF HERUNTERLADEN",
-    downloadCV: "CV HERUNTERLADEN",
+    cvTitle: "LEBENSLAUF",
+    previewCV: "VORSCHAU",
+    openInNewTab: "In neuem Tab öffnen",
+    downloadCV: "PDF herunterladen",
+    backToList: "Zurück zur Liste",
     cvSpanish: "CV auf Spanisch",
     cvEnglish: "CV auf Englisch",
     cvGerman: "CV auf Deutsch",
     lastUpdated: "Zuletzt aktualisiert",
+    viewOnlineHint: "Wählen Sie eine Version für die Vorschau oder öffnen Sie sie in einem neuen Tab.",
 
     // Contact
     contactTitle: "KOMMUNIKATIONSKANAL",
@@ -708,7 +843,7 @@ export const translations = {
     contactInfo: {
       email: "faustinognavi@gmail.com",
       phone: "+54 341 3996285",
-      location: "Rosario, Santa Fe, Argentinien",
+      location: "München, Deutschland",
       linkedin: "linkedin.com/in/faustino-gnavi"
     },
 

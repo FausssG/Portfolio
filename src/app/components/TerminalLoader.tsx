@@ -116,6 +116,16 @@ export function TerminalLoader({ onComplete, language }: { onComplete: () => voi
         >
           {t.footer}
         </motion.div>
+
+        {/* Skip button */}
+        <div className="text-center mt-3">
+          <button
+            onClick={onComplete}
+            className="text-[11px] font-mono text-cyan-400/60 hover:text-cyan-300 underline cursor-pointer transition-colors"
+          >
+            {language === "es" ? "Omitir carga" : language === "en" ? "Skip loading" : "Laden überspringen"} ⏩
+          </button>
+        </div>
       </div>
     </motion.div>
   );

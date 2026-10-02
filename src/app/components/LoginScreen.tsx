@@ -29,7 +29,8 @@ const translations = {
       "ACCESO CONCEDIDO"
     ],
     serverActive: "SERVIDOR ACTIVO",
-    secureConnection: "CONEXIÓN SEGURA SSL/TLS 256-BIT"
+    secureConnection: "CONEXIÓN SEGURA SSL/TLS 256-BIT",
+    fastAccess: "⚡ ACCESO RÁPIDO (SALTAR INTRO)"
   },
   en: {
     welcome: "WELCOME",
@@ -45,7 +46,8 @@ const translations = {
       "ACCESS GRANTED"
     ],
     serverActive: "SERVER ACTIVE",
-    secureConnection: "SECURE CONNECTION SSL/TLS 256-BIT"
+    secureConnection: "SECURE CONNECTION SSL/TLS 256-BIT",
+    fastAccess: "⚡ QUICK ACCESS (SKIP INTRO)"
   },
   de: {
     welcome: "WILLKOMMEN",
@@ -61,34 +63,18 @@ const translations = {
       "ZUGRIFF GEWÄHRT"
     ],
     serverActive: "SERVER AKTIV",
-    secureConnection: "SICHERE VERBINDUNG SSL/TLS 256-BIT"
+    secureConnection: "SICHERE VERBINDUNG SSL/TLS 256-BIT",
+    fastAccess: "⚡ SCHNELLZUGRIFF (ÜBERSPRINGEN)"
   }
 };
 
 export function LoginScreen({ onLoginComplete }: { onLoginComplete: (lang: string) => void }) {
   const [selectedLanguage, setSelectedLanguage] = useState<string>("es");
-  const [isAuthenticating, setIsAuthenticating] = useState(false);
-  const [authStep, setAuthStep] = useState(0);
-  const [scanProgress, setScanProgress] = useState(0);
 
   const t = translations[selectedLanguage as keyof typeof translations];
-  const authSteps = t.authSteps;
-
-  useEffect(() => {
-    if (isAuthenticating && authStep < authSteps.length) {
-      const timer = setTimeout(() => {
-        setAuthStep(prev => prev + 1);
-        setScanProgress(((authStep + 1) / authSteps.length) * 100);
-      }, 600);
-      return () => clearTimeout(timer);
-    } else if (authStep === authSteps.length) {
-      const completeTimer = setTimeout(() => onLoginComplete(selectedLanguage), 800);
-      return () => clearTimeout(completeTimer);
-    }
-  }, [isAuthenticating, authStep, authSteps.length, onLoginComplete, selectedLanguage]);
 
   const handleEnter = () => {
-    setIsAuthenticating(true);
+    onLoginComplete(selectedLanguage);
   };
 
   return (
@@ -146,16 +132,14 @@ export function LoginScreen({ onLoginComplete }: { onLoginComplete: (lang: strin
       />
 
       <div className="relative z-10 flex items-center justify-center min-h-screen px-4">
-        <AnimatePresence mode="wait">
-          {!isAuthenticating ? (
-            <motion.div
-              key="login"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.5 }}
-              className="w-full max-w-md"
-            >
+        <motion.div
+          key="login"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-md"
+        >
               {/* Logo/Header - Responsive */}
               <motion.div
                 initial={{ y: -50, opacity: 0 }}
@@ -273,93 +257,6 @@ export function LoginScreen({ onLoginComplete }: { onLoginComplete: (lang: strin
                 </p>
               </motion.div>
             </motion.div>
-          ) : (
-            <motion.div
-              key="auth"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="w-full max-w-md"
-            >
-              {/* Authentication Process - Responsive */}
-              <div className="bg-slate-900/80 backdrop-blur-xl border border-cyan-500/30 rounded-xl p-6 sm:p-8 shadow-2xl shadow-violet-500/20">
-                <div className="text-center mb-4 sm:mb-6">
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    className="inline-block"
-                  >
-                    <Fingerprint className="w-12 h-12 sm:w-16 sm:h-16 text-cyan-400" />
-                  </motion.div>
-                </div>
-
-                {/* Auth steps - Responsive */}
-                <div className="space-y-2 sm:space-y-3 mb-4 sm:mb-6">
-                  <AnimatePresence mode="sync">
-                    {authSteps.slice(0, authStep + 1).map((step, index) => (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-mono"
-                      >
-                        <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full flex-shrink-0" />
-                        <span className="text-cyan-400">{step}</span>
-                      </motion.div>
-                    ))}
-                  </AnimatePresence>
-                </div>
-
-                {/* Progress bar - Responsive */}
-                <div className="space-y-1.5 sm:space-y-2">
-                  <div className="flex justify-between text-[10px] sm:text-xs text-cyan-400 font-mono">
-                    <span>AUTENTICACIÓN</span>
-                    <span>{Math.round(scanProgress)}%</span>
-                  </div>
-                  <div className="h-1.5 sm:h-2 bg-slate-800 rounded-full overflow-hidden border border-cyan-500/30">
-                    <motion.div
-                      className="h-full bg-gradient-to-r from-violet-500 via-cyan-500 to-violet-500"
-                      initial={{ width: 0 }}
-                      animate={{
-                        width: `${scanProgress}%`,
-                        backgroundPosition: ["0% 0%", "200% 0%"]
-                      }}
-                      transition={{
-                        width: { duration: 0.5 },
-                        backgroundPosition: { duration: 1.5, repeat: Infinity, ease: "linear" }
-                      }}
-                      style={{ backgroundSize: "200% 100%" }}
-                    />
-                  </div>
-                </div>
-
-                {/* Biometric scan animation - Responsive */}
-                <motion.div
-                  className="mt-4 sm:mt-6 relative h-16 sm:h-20"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: authStep >= 1 ? 1 : 0 }}
-                >
-                  <div className="absolute inset-0 border border-cyan-500/30 rounded">
-                    <motion.div
-                      className="absolute inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"
-                      animate={{ y: [0, authStep >= 1 ? 80 : 64, 0] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    />
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <motion.div
-                      animate={{ scale: [1, 1.2, 1] }}
-                      transition={{ duration: 1, repeat: Infinity }}
-                      className="text-cyan-400/30 font-mono text-[10px] sm:text-xs"
-                    >
-                      ESCANEANDO...
-                    </motion.div>
-                  </div>
-                </motion.div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </div>
   );

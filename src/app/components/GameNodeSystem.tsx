@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "motion/react";
-import { User, Code, Mail, Briefcase, Terminal, Cpu, Database, Globe, Lock, Check } from "lucide-react";
+import { User, Code, Mail, Briefcase, Terminal, Cpu, Database, Globe, Lock, Check, Building2 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { translations, Language } from "../utils/translations";
 
@@ -19,7 +19,7 @@ const nodes: NodeData[] = [
     id: "main",
     title: "SISTEMA CENTRAL",
     icon: Cpu,
-    position: { x: 50, y: 50 },
+    position: { x: 50, y: 11 },
     color: "from-violet-500 to-purple-600",
     description: "Núcleo del sistema",
     xpReward: 0,
@@ -28,68 +28,78 @@ const nodes: NodeData[] = [
     id: "about",
     title: "PERFIL",
     icon: User,
-    position: { x: 50, y: 20 },
+    position: { x: 50, y: 28 },
     color: "from-cyan-500 to-blue-600",
     description: "Información personal",
     requiredNodes: ["main"],
     xpReward: 15,
   },
   {
+    id: "languages",
+    title: "IDIOMAS",
+    icon: Globe,
+    position: { x: 27, y: 48 },
+    color: "from-indigo-500 to-violet-600",
+    description: "Certificaciones",
+    requiredNodes: ["about"],
+    xpReward: 15,
+  },
+  {
     id: "skills",
     title: "HABILIDADES",
     icon: Code,
-    position: { x: 75, y: 32 },
+    position: { x: 73, y: 48 },
     color: "from-emerald-500 to-green-600",
     description: "Stack tecnológico",
     requiredNodes: ["about"],
     xpReward: 25,
   },
   {
-    id: "projects",
-    title: "PROYECTOS",
-    icon: Briefcase,
-    position: { x: 75, y: 68 },
-    color: "from-pink-500 to-rose-600",
-    description: "Portfolio de trabajos",
-    requiredNodes: ["skills"],
-    xpReward: 35,
-  },
-  {
-    id: "contact",
-    title: "CONTACTO",
-    icon: Mail,
-    position: { x: 50, y: 80 },
-    color: "from-orange-500 to-amber-600",
-    description: "Red de comunicación",
-    requiredNodes: ["projects", "cv"],
-    xpReward: 20,
-  },
-  {
     id: "cv",
     title: "CURRICULUM",
     icon: Database,
-    position: { x: 25, y: 68 },
+    position: { x: 15, y: 74 },
     color: "from-teal-500 to-cyan-600",
     description: "Descargar CV",
     requiredNodes: ["languages"],
     xpReward: 15,
   },
   {
-    id: "languages",
-    title: "IDIOMAS",
-    icon: Globe,
-    position: { x: 25, y: 32 },
-    color: "from-indigo-500 to-violet-600",
-    description: "Certificaciones",
-    requiredNodes: ["about"],
-    xpReward: 15,
+    id: "contact",
+    title: "CONTACTO",
+    icon: Mail,
+    position: { x: 39, y: 74 },
+    color: "from-orange-500 to-amber-600",
+    description: "Red de comunicación",
+    requiredNodes: ["languages"],
+    xpReward: 20,
+  },
+  {
+    id: "experience",
+    title: "PASANTÍA",
+    icon: Building2,
+    position: { x: 61, y: 74 },
+    color: "from-blue-500 to-indigo-600",
+    description: "Pasantía Anser Telefonía",
+    requiredNodes: ["skills"],
+    xpReward: 30,
+  },
+  {
+    id: "projects",
+    title: "PROYECTOS",
+    icon: Briefcase,
+    position: { x: 85, y: 74 },
+    color: "from-pink-500 to-rose-600",
+    description: "Portfolio de trabajos",
+    requiredNodes: ["skills"],
+    xpReward: 35,
   },
   // 🎮 EASTER EGG - Nodo Secreto
   {
     id: "secret",
     title: "???",
     icon: Terminal,
-    position: { x: 50, y: 50 }, // Base position, offset applied in render
+    position: { x: 50, y: 52 },
     color: "from-yellow-500 to-orange-600",
     description: "Nodo secreto descubierto!",
     requiredNodes: [],
@@ -115,7 +125,7 @@ export function GameNodeSystem({
     title: t.nodes[node.id as keyof typeof t.nodes]?.title ?? node.title,
     description: t.nodes[node.id as keyof typeof t.nodes]?.description ?? node.description,
   }));
-  const showConnectionLines = false;
+  const showConnectionLines = true;
   const NODE_SHIFT_X_PERCENT = 0;
   const NODE_SHIFT_Y_PERCENT = 0;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -292,15 +302,8 @@ export function GameNodeSystem({
 
   const handleNodeClick = (nodeId: string) => {
     if (!isNodeUnlocked(nodeId)) return;
-
-    // Travel animation
-    setTravelingTo(nodeId);
-
-    setTimeout(() => {
-      setCurrentNode(nodeId);
-      setTravelingTo(null);
-      onNodeSelect(nodeId);
-    }, 400);
+    setCurrentNode(nodeId);
+    onNodeSelect(nodeId);
   };
 
   const getPathToNode = (targetId: string) => {
@@ -423,14 +426,14 @@ export function GameNodeSystem({
         </div>
       </div>
 
-      {/* Compact mobile progress button */}
-      <div className="sm:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-20">
+      {/* Compact mobile progress button - positioned bottom-left to avoid center collisions */}
+      <div className="sm:hidden fixed bottom-3 left-3 z-20">
         <button
           onClick={() => setShowMobilePanel(true)}
-          className="w-14 h-14 rounded-full bg-black/70 border border-violet-500/30 flex items-center justify-center hover:bg-black/80 transition-colors"
+          className="w-11 h-11 rounded-full bg-black/80 backdrop-blur-md border border-violet-500/40 flex items-center justify-center shadow-lg shadow-black/50 hover:bg-black transition-colors"
           aria-label="Open progress details"
         >
-          <div className="text-xs font-mono text-cyan-300 font-bold">{completionPercentage}%</div>
+          <div className="text-[10px] font-mono text-cyan-300 font-bold">{completionPercentage}%</div>
         </button>
       </div>
 
@@ -612,13 +615,20 @@ export function GameNodeSystem({
           <svg className="absolute inset-0 w-full h-full pointer-events-none" width={containerSize.width} height={containerSize.height}>
             <defs>
               <linearGradient id="pathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="rgba(139, 92, 246, 0.4)" />
-                <stop offset="100%" stopColor="rgba(34, 211, 238, 0.4)" />
+                <stop offset="0%" stopColor="rgba(139, 92, 246, 0.25)" />
+                <stop offset="100%" stopColor="rgba(34, 211, 238, 0.25)" />
               </linearGradient>
               <linearGradient id="activePathGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="rgba(139, 92, 246, 0.8)" />
-                <stop offset="100%" stopColor="rgba(34, 211, 238, 0.8)" />
+                <stop offset="0%" stopColor="rgba(139, 92, 246, 0.9)" />
+                <stop offset="100%" stopColor="rgba(34, 211, 238, 0.9)" />
               </linearGradient>
+              <filter id="neonGlow" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feMerge>
+                  <feMergeNode in="blur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
             </defs>
 
             {nodes.map((node) =>
@@ -648,14 +658,29 @@ export function GameNodeSystem({
 
                 return (
                   <g key={`${reqId}-${node.id}`}>
+                    {/* Underlying glow for active connections */}
+                    {isUnlocked && (
+                      <line
+                        x1={start.x}
+                        y1={start.y}
+                        x2={end.x}
+                        y2={end.y}
+                        stroke={isActive ? "rgba(34, 211, 238, 0.35)" : "rgba(34, 211, 238, 0.18)"}
+                        strokeWidth={isActive ? 6 : 3.5}
+                        strokeLinecap="round"
+                        style={{ filter: "drop-shadow(0 0 4px rgba(34, 211, 238, 0.5))" }}
+                      />
+                    )}
+
                     {segments.map((seg, i) => {
                       const segmentKey = `${reqId}-${node.id}-seg-${i}`;
-                      // If connection is unlocked, animate segments sequentially when showUnlockEffect equals node id
                       const shouldAnimateNow = showUnlockEffect === node.id;
 
-                      const stroke = isUnlocked ? "url(#activePathGradient)" : "url(#pathGradient)";
-                      const baseOpacity = isUnlocked ? 1 : 0.22;
-                      const strokeW = isActive ? 1.6 : 1;
+                      const strokeColor = isUnlocked
+                        ? (isActive ? "rgba(34, 211, 238, 0.95)" : "rgba(34, 211, 238, 0.75)")
+                        : "rgba(139, 92, 246, 0.35)";
+                      const baseOpacity = isUnlocked ? 0.95 : 0.25;
+                      const strokeW = isActive ? 2.2 : isUnlocked ? 1.6 : 1;
 
                       return (
                         <motion.line
@@ -664,26 +689,49 @@ export function GameNodeSystem({
                           y1={seg.y1}
                           x2={seg.x2}
                           y2={seg.y2}
-                          stroke={stroke}
+                          stroke={strokeColor}
                           strokeWidth={strokeW}
+                          strokeDasharray={isUnlocked ? undefined : "3 3"}
                           strokeLinecap="round"
                           initial={{ opacity: shouldAnimateNow ? 0 : baseOpacity }}
-                          animate={{ opacity: isUnlocked ? 1 : baseOpacity }}
+                          animate={{ opacity: isUnlocked ? 0.95 : baseOpacity }}
                           transition={{ duration: 0.35, delay: shouldAnimateNow ? i * 0.06 : 0 }}
                         />
                       );
                     })}
 
-                    {/* Traveling particle still follows whole path */}
+                    {/* Ambient subtle energy flow on unlocked connections */}
+                    {isUnlocked && (
+                      <motion.circle
+                        r={isActive ? "2.5" : "2"}
+                        fill="rgba(34, 211, 238, 0.9)"
+                        style={{ filter: "drop-shadow(0 0 3px rgba(34, 211, 238, 0.8))" }}
+                        initial={{ cx: start.x, cy: start.y, opacity: 0 }}
+                        animate={{
+                          cx: [start.x, end.x],
+                          cy: [start.y, end.y],
+                          opacity: [0, 0.9, 0]
+                        }}
+                        transition={{
+                          duration: 3,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: ((start.x + start.y) % 5) * 0.4
+                        }}
+                      />
+                    )}
+
+                    {/* Traveling particle still follows whole path when moving */}
                     {travelingTo === node.id && currentNode === reqId && (
                       <motion.circle
-                        r="1"
-                        fill="rgba(34, 211, 238, 1)"
+                        r="3.5"
+                        fill="#22d3ee"
+                        style={{ filter: "drop-shadow(0 0 4px #22d3ee)" }}
                         initial={{ cx: start.x, cy: start.y }}
                         animate={{ cx: end.x, cy: end.y }}
-                        transition={{ duration: 0.8, ease: "easeInOut" }}
+                        transition={{ duration: 0.5, ease: "easeInOut" }}
                       >
-                        <animate attributeName="r" values="0.8;1.3;0.8" dur="0.5s" repeatCount="indefinite" />
+                        <animate attributeName="r" values="2.5;4.5;2.5" dur="0.3s" repeatCount="indefinite" />
                       </motion.circle>
                     )}
                   </g>
@@ -705,18 +753,13 @@ export function GameNodeSystem({
 
           // Compute pixel positions so SVG lines and nodes share coordinates
           const pixel = toPixelPoint(node.position);
-          // Apply secret offset in pixels (10vw/10vh equivalent)
-          const secretOffsetX = isSecret ? (containerSize.width * 0.10) : 0;
-          const secretOffsetY = isSecret ? (containerSize.height * 0.10) : 0;
-          const leftPosition = `${pixel.x + secretOffsetX}px`;
-          const topPosition = `${pixel.y + secretOffsetY}px`;
+          const leftPosition = `${pixel.x}px`;
+          const topPosition = `${pixel.y}px`;
 
           return (
-          <motion.div
+          <div
             key={node.id}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: index * 0.1, type: "spring", stiffness: 200 }}
+            className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 select-none"
             style={{
               position: "absolute",
               left: leftPosition,
@@ -727,140 +770,172 @@ export function GameNodeSystem({
             onMouseEnter={() => setHoveredNode(node.id)}
             onMouseLeave={() => setHoveredNode(null)}
           >
-            <motion.button
-              onClick={() => handleNodeClick(node.id)}
-              whileHover={unlocked ? { scale: 1.1 } : {}}
-              whileTap={unlocked ? { scale: 0.95 } : {}}
-              className={`relative group ${unlocked ? 'cursor-pointer' : 'cursor-not-allowed'}`}
-              disabled={!unlocked}
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ delay: index * 0.1, type: "spring", stiffness: 200 }}
+              className="w-full h-full relative flex items-center justify-center"
             >
-              {/* Unlock effect */}
-              {showUnlockEffect === node.id && (
-                <>
-                  <motion.div
-                    className="absolute inset-0 -m-16"
-                    initial={{ scale: 0, opacity: 1 }}
-                    animate={{ scale: 2, opacity: 0 }}
-                    transition={{ duration: 1 }}
-                  >
-                    <div className={`w-full h-full rounded-full border-4 ${isSecret ? 'border-yellow-400' : 'border-cyan-400'}`} />
-                  </motion.div>
-                  {/* Particles on unlock */}
-                  {[...Array(12)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className={`absolute w-2 h-2 rounded-full ${isSecret ? 'bg-yellow-400' : 'bg-cyan-400'}`}
-                      initial={{
-                        x: 0,
-                        y: 0,
-                        opacity: 1
-                      }}
-                      animate={{
-                        x: Math.cos(i * 30 * Math.PI / 180) * 100,
-                        y: Math.sin(i * 30 * Math.PI / 180) * 100,
-                        opacity: 0,
-                        scale: 0
-                      }}
-                      transition={{ duration: 1 }}
-                    />
-                  ))}
-                </>
-              )}
-
-              {/* Secret node special effect */}
-              {isSecret && (
-                <motion.div
-                  className="absolute inset-0 -m-8"
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                >
-                  {[0, 1, 2, 3].map((i) => (
-                    <motion.div
-                      key={i}
-                      className="absolute w-2 h-2 bg-yellow-400 rounded-full"
-                      style={{
-                        left: '50%',
-                        top: '50%',
-                      }}
-                      animate={{
-                        x: Math.cos(i * 90 * Math.PI / 180) * 40,
-                        y: Math.sin(i * 90 * Math.PI / 180) * 40,
-                        opacity: [0.3, 1, 0.3],
-                      }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        delay: i * 0.2,
-                      }}
-                    />
-                  ))}
-                </motion.div>
-              )}
-
-              {/* Current node indicator */}
+              {/* Current node indicator - strictly circular aura centered on the button */}
               {isCurrent && (
                 <motion.div
-                  className={`absolute inset-0 rounded-full bg-gradient-to-r ${node.color}`}
+                  className={`absolute -inset-2.5 sm:-inset-3.5 rounded-full bg-gradient-to-r ${node.color} blur-md pointer-events-none -z-10`}
                   animate={{
-                    scale: [1, 1.4, 1],
-                    opacity: [0.5, 0, 0.5],
+                    scale: [1, 1.25, 1],
+                    opacity: [0.35, 0.75, 0.35],
                   }}
-                  transition={{ duration: 2, repeat: Infinity }}
+                  transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
                 />
               )}
 
-              {/* Node circle - Responsive sizing */}
-              <div
-                className={`relative w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full p-[2px] transition-all duration-300 ${
-                  unlocked
-                    ? `bg-gradient-to-br ${node.color} shadow-lg`
-                    : 'bg-gray-700 opacity-50'
-                }`}
-              >
-                <div className={`w-full h-full rounded-full flex items-center justify-center relative ${
-                  unlocked ? 'bg-slate-900/90 backdrop-blur-xl' : 'bg-slate-800/90'
-                }`}>
-                  {unlocked ? (
-                    <>
-                      <node.icon className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-white relative z-10" />
-                      {visited && (
-                        <div className="absolute top-0.5 right-0.5 sm:top-1 sm:right-1 bg-green-500 rounded-full p-0.5 sm:p-1">
-                          <Check className="w-2 h-2 sm:w-3 sm:h-3 text-white" />
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    <Lock className="w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10 text-gray-500" />
-                  )}
-                </div>
-              </div>
-
-              {/* XP Badge - Responsive */}
-              {node.xpReward && node.xpReward > 0 && !visited && unlocked && (
+              {/* Unvisited ready pulse to guide attention - strictly circular */}
+              {unlocked && !visited && !isCurrent && (
                 <motion.div
-                  animate={isSecret ? {
+                  className={`absolute -inset-2 sm:-inset-2.5 rounded-full bg-gradient-to-r ${node.color} blur-sm pointer-events-none -z-10`}
+                  animate={{
                     scale: [1, 1.2, 1],
-                    rotate: [0, 5, -5, 0]
-                  } : {}}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  className={`absolute -top-1 -right-1 sm:-top-2 sm:-right-2 rounded-full px-1.5 py-0.5 sm:px-2 sm:py-1 text-[10px] sm:text-xs font-mono text-white border ${
-                    isSecret
-                      ? 'bg-gradient-to-r from-yellow-600 to-orange-600 border-yellow-400'
-                      : 'bg-gradient-to-r from-violet-600 to-purple-600 border-violet-400'
-                  }`}
-                >
-                  +{node.xpReward} {isSecret && '🎁'}
-                </motion.div>
+                    opacity: [0.3, 0.7, 0.3],
+                  }}
+                  transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+                />
               )}
 
-              {/* Label */}
+              <motion.button
+                onClick={() => handleNodeClick(node.id)}
+                whileHover={unlocked ? { scale: 1.08 } : {}}
+                whileTap={unlocked ? { scale: 0.95 } : {}}
+                className={`w-full h-full rounded-full relative flex items-center justify-center ${unlocked ? 'cursor-pointer' : 'cursor-not-allowed'}`}
+                disabled={!unlocked}
+              >
+                {/* Unlock effect */}
+                {showUnlockEffect === node.id && (
+                  <>
+                    <motion.div
+                      className="absolute inset-0 -m-16"
+                      initial={{ scale: 0, opacity: 1 }}
+                      animate={{ scale: 2, opacity: 0 }}
+                      transition={{ duration: 1 }}
+                    >
+                      <div className={`w-full h-full rounded-full border-4 ${isSecret ? 'border-yellow-400' : 'border-cyan-400'}`} />
+                    </motion.div>
+                    {/* Particles on unlock */}
+                    {[...Array(12)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        className={`absolute w-2 h-2 rounded-full ${isSecret ? 'bg-yellow-400' : 'bg-cyan-400'}`}
+                        initial={{
+                          x: 0,
+                          y: 0,
+                          opacity: 1
+                        }}
+                        animate={{
+                          x: Math.cos(i * 30 * Math.PI / 180) * 100,
+                          y: Math.sin(i * 30 * Math.PI / 180) * 100,
+                          opacity: 0,
+                          scale: 0
+                        }}
+                        transition={{ duration: 1 }}
+                      />
+                    ))}
+                  </>
+                )}
+
+                {/* Secret node special effect */}
+                {isSecret && (
+                  <motion.div
+                    className="absolute inset-0 -m-8"
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                  >
+                    {[0, 1, 2, 3].map((i) => (
+                      <motion.div
+                        key={i}
+                        className="absolute w-2 h-2 bg-yellow-400 rounded-full"
+                        style={{
+                          left: '50%',
+                          top: '50%',
+                        }}
+                        animate={{
+                          x: Math.cos(i * 90 * Math.PI / 180) * 40,
+                          y: Math.sin(i * 90 * Math.PI / 180) * 40,
+                          opacity: [0.3, 1, 0.3],
+                        }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          delay: i * 0.2,
+                        }}
+                      />
+                    ))}
+                  </motion.div>
+                )}
+
+                {/* Node circle - Responsive sizing */}
+                <div
+                  className={`w-full h-full rounded-full p-[2px] transition-all duration-300 relative z-0 ${
+                    unlocked
+                      ? `bg-gradient-to-br ${node.color} shadow-lg`
+                      : 'bg-gray-700 opacity-50'
+                  }`}
+                >
+                  <div className={`w-full h-full rounded-full flex items-center justify-center relative ${
+                    unlocked ? 'bg-slate-900/90 backdrop-blur-xl' : 'bg-slate-800/90'
+                  }`}>
+                    {unlocked ? (
+                      <>
+                        <node.icon className="w-5 h-5 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 text-white relative z-10" />
+                        {visited && (
+                          <div className="absolute top-0.5 right-0.5 sm:top-1 sm:right-1 bg-green-500 rounded-full p-0.5 sm:p-1">
+                            <Check className="w-2 h-2 sm:w-2.5 sm:h-2.5 md:w-3 md:h-3 text-white" />
+                          </div>
+                        )}
+                      </>
+                    ) : (
+                      <Lock className="w-5 h-5 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 text-gray-500" />
+                    )}
+                  </div>
+                </div>
+
+                {/* XP Badge - Responsive */}
+                {Boolean((node.xpReward ?? 0) > 0 && !visited && unlocked) && (
+                  <motion.div
+                    animate={isSecret ? {
+                      scale: [1, 1.2, 1],
+                      rotate: [0, 5, -5, 0]
+                    } : {}}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className={`absolute -top-1 -right-1 sm:-top-1.5 sm:-right-1.5 rounded-full px-1 py-0.5 sm:px-2 sm:py-0.5 text-[8px] sm:text-[10px] md:text-xs font-mono text-white border z-20 ${
+                      isSecret
+                        ? 'bg-gradient-to-r from-yellow-600 to-orange-600 border-yellow-400'
+                        : 'bg-gradient-to-r from-violet-600 to-purple-600 border-violet-400'
+                    }`}
+                  >
+                    +{node.xpReward} {isSecret && '🎁'}
+                  </motion.div>
+                )}
+              </motion.button>
+
+              {/* Persistent mini node badge - positioned absolute below circle */}
+              <div className="absolute top-full mt-1 sm:mt-1.5 md:mt-2 left-1/2 -translate-x-1/2 pointer-events-none whitespace-nowrap z-10">
+                <span className={`inline-block px-1.5 py-0.5 sm:px-2 rounded-full text-[8px] sm:text-[10px] md:text-[11px] font-mono border backdrop-blur-md transition-all shadow-sm ${
+                  isCurrent
+                    ? 'bg-cyan-950/90 text-cyan-300 border-cyan-400/60 shadow-cyan-500/20 font-bold'
+                    : unlocked
+                    ? 'bg-slate-900/85 text-gray-200 border-white/15'
+                    : 'bg-slate-950/70 text-gray-500 border-white/5'
+                }`}>
+                  {(t.nodes as Record<string, { title: string; description: string }>)[node.id]?.title || node.title}
+                </span>
+              </div>
+
+              {/* Hover Label */}
               <AnimatePresence>
                 {hoveredNode === node.id && (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 10 }}
-                    className="absolute top-full mt-2 left-1/2 -translate-x-1/2 whitespace-nowrap"
+                    className="absolute top-full mt-8 left-1/2 -translate-x-1/2 whitespace-nowrap z-20 pointer-events-none"
                   >
                     <div className={`px-3 py-2 backdrop-blur-xl border rounded-lg ${
                       isSecret
@@ -883,8 +958,8 @@ export function GameNodeSystem({
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.button>
-          </motion.div>
+            </motion.div>
+          </div>
         );
         })}
       </div>
@@ -916,7 +991,7 @@ export function GameNodeSystem({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1 }}
-          className="fixed bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 px-4 sm:px-6 py-2 sm:py-3 bg-violet-600/90 backdrop-blur-xl border border-violet-400 rounded-full max-w-[90%] sm:max-w-none"
+          className="fixed bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 z-20 px-4 sm:px-6 py-2 sm:py-3 bg-violet-600/90 backdrop-blur-xl border border-violet-400 rounded-full max-w-[90%] sm:max-w-none pointer-events-none"
         >
           <p className="text-white font-mono text-xs sm:text-sm text-center">
             {ui.tutorial}
@@ -924,6 +999,7 @@ export function GameNodeSystem({
           </p>
         </motion.div>
       )}
+
     </div>
   );
 }
